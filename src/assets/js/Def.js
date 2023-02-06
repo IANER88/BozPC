@@ -639,8 +639,10 @@ class Def {
     Trie(dict) {
       const { former, topic } = dict
       for (const item of topic) {
-        if (item.text.search(new RegExp(former, "i")) !== -1) {
-          const res = item.text.replace(new RegExp(former, "i"), `<em>${former}</em>`);
+        const index = item.text.search(new RegExp(former, "i"))
+        if (index !== -1) {
+          const match = item.text.match(new RegExp(former, "i"))
+          const res = match.input.replace(new RegExp(former, "i"), `<em>${match[0]}</em>`);
           item.xinde = res
         }
       }
