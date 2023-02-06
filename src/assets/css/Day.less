@@ -1,0 +1,584 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.scroll {
+  overflow: hidden;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+.el-popper {
+
+  &.el-select-dropdown {
+    z-index: 11001 !important;
+  }
+
+  &.el-autocomplete-suggestion {
+    z-index: 11001 !important;
+  }
+
+  .popper__arrow {
+    border-width: none !important
+  }
+
+  .popper__arrow::after {
+    border: none;
+    border-width: none !important;
+    position: static;
+    filter: none
+  }
+}
+
+.el-popper[x-placement^=bottom] {
+  margin-top: 5px;
+}
+
+:root {
+  --background: #f9f9f9;
+  --tint-background: #dcdfe6;
+  --tint-two-background: #e3e5e7;
+  --color: #222226;
+  --main-color: #409eff;
+  --error: #f56c6c;
+  --tint-color: #ffffff;
+  --item-tint-background: #ffffff;
+  --button-color: var(--tint-color);
+  --tint-solid: #f0f0f2;
+  --tint-with-color: #c1c1c1;
+  --article-color: #555666;
+  --article-backgrund: #f6f6f6;
+  --article-solid: #ebebeb;
+  --blockquote: #f1f1f1;
+  --option: #f9f9f9;
+  --item-background: #f6f7f8;
+  --item-solid: #f1f2f3;
+  --item-hover: #e3e5e7;
+  --item-svg: #61666d;
+  --headlines-color: #999aaa;
+  --el-tag-blue: #ecf5ff;
+  --el-tag-solid: #d9ecff;
+  --empty: #DCDDE0;
+  --topic-hover: #f4f4f4;
+  --course-solid: #eaecef;
+  --pre-solid: #0e0f12;
+  --admin-hover: #fafafa;
+  --shadow: 0 1px 3px rgb(18 18 18 / 10%);
+  --chat-svg: #b9b9b9;
+  --search: #f7f7fc;
+  --search-hover: #e4e5e7;
+  --topic-solid: #e7e9e8;
+  --course-hover: #eff0f0;
+  --w-e-textarea-slight-bg-color: #282c34 !important;
+  --tabel: #f1f3f4;
+  --tabel-solid: #ccc;
+  --account-tint-color: #8a8f8d;
+  --collect-nav: #eff0f0;
+}
+
+#editor-box,
+article.article,
+main.course-content-box,
+.continuous-box {
+  table {
+    border-color: var(--tabel-solid) !important;
+
+    th {
+      background-color: var(--blockquote) !important;
+      border-color: var(--tabel-solid) !important
+    }
+
+    td {
+      border-color: var(--tabel-solid) !important
+    }
+  }
+}
+
+.course-left-box {
+  svg {
+    fill: #000;
+  }
+}
+
+.el-dropdown {
+  color: unset;
+}
+
+.w-e-text-container [data-slate-editor] pre>code {
+  color: #fff;
+}
+
+.w-e-text-container [data-slate-editor] blockquote {
+  background-color: var(--blockquote) !important
+}
+#nprogress .bar {
+  background: var(--main-color) !important; //自定义颜色
+}
+.w-e-textarea-link-card-container {
+
+  width: 100% !important;
+  margin: 0 !important;
+  background: #ebf0f3 !important;
+  flex-direction: row-reverse;
+  gap: 15px;
+  min-height: 91px;
+  border: 1px solid var(--tint-solid);
+  .w-e-textarea-link-card-icon-container {
+    width: 78px !important;
+    height: 78px !important;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+}
+
+.el-tag {
+  background-color: var(--el-tag-blue);
+  cursor: pointer;
+}
+
+.error {
+  color: var(--error);
+
+  .el-input__inner {
+    border-color: var(--error);
+
+    &::placeholder {
+      color: var(--error);
+    }
+  }
+}
+
+.follower-box {
+  button.follower {
+    &::after {
+      content: "互关";
+    }
+
+    &:hover {
+      &::after {
+        content: "取关" !important;
+      }
+    }
+  }
+
+  button.fan {
+    width: 67px;
+
+    &::after {
+      content: "已关注";
+    }
+
+    &:hover {
+      &::after {
+        content: "取关" !important;
+      }
+    }
+  }
+}
+
+
+
+.fan-box {
+  button.follower {
+    &::after {
+      content: "互关";
+    }
+
+    &:hover {
+      &::after {
+        content: "取关" !important;
+      }
+    }
+  }
+
+  button.fan {
+    &::after {
+      content: "关注";
+    }
+
+  }
+}
+
+
+
+.full-box {
+  position: fixed;
+  background: rgba(0, 0, 0, .6);
+  height: 100vh;
+  bottom: 0;
+  display: flex;
+  left: 0;
+  right: 0;
+  z-index: 11000;
+  justify-content: center;
+  align-items: center;
+  animation: display .3s;
+
+  >div {
+    background: var(--tint-color);
+    border-radius: 5px;
+    display: flex;
+    padding: 20px;
+
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      i {
+
+        font-size: 18px;
+        cursor: pointer;
+
+      }
+    }
+  }
+}
+
+.el-select-dropdown,
+.el-message,
+.el-autocomplete-suggestion {
+  z-index: 10001 !important;
+}
+
+body {
+  background: var(--tint-color);
+  color: var(--color);
+
+  /*将页面前进或后退两种不同效果的动画都写下来*/
+  .slide-left-enter,
+  .slide-right-leave-to {
+    opacity: 0;
+    transform: translateX(500%)
+  }
+
+  .slide-left-leave-to,
+  .slide-right-enter {
+    opacity: 0;
+    transform: translateX(-800%)
+  }
+
+  .slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active {
+    transition: 1s ease;
+    position: absolute;
+  }
+}
+
+.el-dialog__wrapper {
+
+  .el-dialog {
+    height: auto !important;
+  }
+
+  .el-dialog__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+    height: auto;
+
+    >div {
+      display: flex;
+      // align-items: center;
+
+      >span {
+        min-width: 100px;
+        font-size: 18px;
+      }
+    }
+
+    .svgimg {
+      display: flex;
+
+    }
+
+    .select {
+      span {
+        width: 82px !important;
+      }
+    }
+
+    .box {
+      align-self: end;
+    }
+  }
+}
+
+
+span.tag-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  padding: 0 2px;
+  font-size: 12px;
+  font-weight: normal;
+  color: #409eff;
+  border: 1px solid #409eff;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.el-dialog__wrapper {
+  .el-dialog {
+    height: 400px;
+  }
+
+  .el-dialog__body {
+    height: 100%;
+    padding: 0 30px 20px;
+  }
+
+  .content-box {
+    display: flex;
+    flex-direction: column;
+    height: 65%;
+    grid-gap: 10px;
+
+
+    .el-checkbox-group {
+      display: flex;
+      flex-direction: column;
+      display: flex;
+      grid-gap: 10px;
+      font-size: 14px;
+      height: 197px;
+
+      &::-webkit-scrollbar {
+        /*高宽分别对应横竖滚动条的尺寸*/
+        width: 7px;
+        background: none;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: var(--course-solid);
+        height: 50px;
+        border-radius: 30px;
+      }
+
+      overflow-y: auto;
+
+      .el-checkbox {
+        display: flex;
+        align-items: center;
+        height: 35px;
+      }
+    }
+  }
+
+
+  .add {
+    height: 40px;
+    border: 1px solid var(--tint-solid);
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+
+    &:hover {
+      color: var(--main-color);
+      border: 1px solid var(--main-color);
+    }
+  }
+
+  .add-box {
+    display: flex;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    overflow: hidden;
+
+    input {
+      width: 80%;
+      height: 36px;
+      padding: 5px;
+      outline: none;
+      border: none;
+    }
+
+    button {
+      width: 20%;
+      height: 36px;
+      border: none;
+      background: #d9f1f9;
+      color: var(--main-color);
+      border-left: 1px solid var(--main-color);
+      cursor: pointer;
+    }
+  }
+
+  .last {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+    button {
+      width: 80%;
+    }
+  }
+
+}
+
+.floating-box {
+  width: 120px;
+  height: 150px;
+  background: var(--tint-color);
+}
+
+#boz {
+  @keyframes Login {
+    to {
+      width: 100%;
+      display: none;
+    }
+
+    from {
+      width: 0;
+    }
+  }
+
+  >i {
+    height: 5px;
+    display: block;
+    background: var(--main-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    animation: Login 4s;
+    z-index: 1001;
+  }
+}
+
+:root.dark {
+  --background: #22272e;
+  --tint-background: #22272e;
+  --tint-two-background: var(--tint-solid);
+  --color: #adbac7;
+  --main-color: #409eff;
+  --error: #f56c6c;
+  --tint-color: #22272e;
+  --button-color: var(--color);
+  --tint-solid: #3e4c5a;
+  --tint-with-color: #c1c1c1;
+  --article-color: #778492;
+  --option: #383d48;
+  --blockquote: var(--option);
+  --article-solid: var(--tint-solid);
+  --article-backgrund: var(--tint-background);
+  --item-background: #282c34;
+  --item-tint-background: #2d323d;
+  --item-solid: var(--tint-solid);
+  --item-hover: #222222;
+  --empty: var(--color);
+  --item-svg: var(--color);
+  --headlines-color: #778492;
+  --el-tag-blue: #409eff;
+  --course-solid: var(--tint-solid);
+  --topic-hover: var(--topic-solid);
+  --pre-background: #32363e;
+  --pre-solid: var(--tint-solid);
+  --search-hover: var(--item-background);
+  --topic-solid: var(--tint-solid);
+  --course-hover: var(--option);
+  --tabel-solid: var(--tint-solid);
+  --collect-nav: var(--option);
+}
+
+.dark .el-tag {
+  border: none;
+  color: #fff;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+.dark {
+  .base {
+    border-bottom: solid 1px var(--tint-solid);
+  }
+
+  .course-left-box {
+    box-shadow: none !important;
+    border-right: 1px solid var(--tint-solid);
+
+    svg,
+    path {
+      fill: var(--color) !important;
+    }
+  }
+
+  .search .form {
+    input {
+      border: 1px solid var(--tint-solid) !important;
+
+      &::placeholder {
+        color: var(--color);
+      }
+    }
+  }
+
+  #articles {
+    .tag-box {
+      span {
+        background: var(--main-color) !important;
+
+        a {
+          color: #fff !important;
+        }
+      }
+    }
+
+    .head {
+      border-bottom: 1px solid var(--tint-solid);
+    }
+  }
+
+  #course,
+  .article {
+    span[style] {
+      background-color: var(--pre-background) !important;
+      color: rgb(114, 192, 64) !important;
+    }
+  }
+
+  .def {
+    background: var(--main-color) !important;
+    color: #fff !important;
+
+    svg,
+    path {
+      fill: #fff !important;
+    }
+  }
+
+  .course-top-title,
+  .course-top-type {
+    box-shadow: none;
+    border: 1px solid var(--tint-solid);
+  }
+
+  .course-top-type {
+    a {
+      background: none !important;
+
+      &:hover {
+        background: var(--topic-hover) !important;
+      }
+    }
+  }
+}

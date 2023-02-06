@@ -1,0 +1,6 @@
+
+class Pre{
+  constructor(){
+    
+  }
+}
