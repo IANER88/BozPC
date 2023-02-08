@@ -25,14 +25,14 @@ export default {
   },
   mounted() {
     const html = this._("html");
-    this.show = html.className == "dark" ? "dark" : "white"
+    this.show = html.className == "dark" ? "white" : "black"
+    console.log(this.show);
   },
   methods: {
     _(select) {
       return document.querySelector(select)
     },
-    key(show) {
-      this.show = show;
+    key() {
       const html = this._("html");
       if (html.className == "dark") {
         html.className = "";

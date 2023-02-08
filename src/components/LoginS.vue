@@ -184,7 +184,7 @@ export default {
   }
 
   &:focus {
-    border: solid var(--main-colors) 2px;
+    border: solid var(--main-color) 2px;
   }
 }
 
@@ -256,7 +256,7 @@ export default {
     margin: 5px 0;
     height: 1px;
     font-size: 7px;
-    background: var(--option);
+    background: var(--blockquote);
 
     span {
       width: 45px;
@@ -321,7 +321,7 @@ export default {
 
     input {
       height: 45px;
-      background: var(--option);
+      background: var(--blockquote);
       padding: 10px;
       outline: none;
       border: none;
@@ -333,7 +333,7 @@ export default {
       }
 
       &:hover {
-        background: #32363f;
+        background: var(--search-hover);
       }
 
       &:focus {

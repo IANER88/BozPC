@@ -123,7 +123,7 @@ export default {
 
 .inputbox {
   height: 45px;
-  background: #ebebeb;
+  background: var(--blockquote);
   padding: 10px;
   outline: none;
   border: none;
@@ -132,7 +132,7 @@ export default {
   font-size: 15px;
 
   &:hover {
-    background: #e0e0e0;
+    background: var(--search-hover);
   }
 
   &:focus {
