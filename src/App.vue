@@ -24,7 +24,6 @@ export default {
     const dark = getItem("theme");
     if (dark) {
       _("html")[0].className = "dark";
-      this.show = "white";
     }
   },
 };

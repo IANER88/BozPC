@@ -44,7 +44,7 @@
             </div>
           </div>
           <el-collapse-transition>
-            <div class="comment-box" v-show="hide === item.id">
+            <div class="comment-box" v-show="hide === item.id" @click.stop>
               <textarea placeholder="禁止发表违禁言论" v-model="content" />
               <el-button type="primary" @click="Release(item.article.id, item.actor.id)">回复评论</el-button>
             </div>

@@ -90,8 +90,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@red: #e05f42;
-
 .span {
   color: var(--main-color);
   padding: 5px;
@@ -108,7 +106,7 @@ export default {
   span {
     display: flex;
     font-size: 10px;
-    color: @red;
+    color: var(--error);
 
     i {
       .vertical();
@@ -132,6 +130,7 @@ export default {
   margin-bottom: 10px;
   border-radius: 6px;
   font-size: 15px;
+
   &:hover {
     background: #e0e0e0;
   }
@@ -149,10 +148,8 @@ export default {
   cursor: pointer;
 }
 
-.buttonbox {}
-
 .login-box {
-  background: #fff;
+  background: var(--tint-color);
   min-height: 100vh;
 
   .nav {
@@ -235,6 +232,6 @@ export default {
 }
 
 .alert {
-  border: solid #e05f42 2px !important;
+  border: solid var(--error) 2px !important;
 }
 </style>

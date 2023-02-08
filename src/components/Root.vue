@@ -23,6 +23,10 @@ export default {
       ],
     };
   },
+  mounted() {
+    const html = this._("html");
+    this.show = html.className == "dark" ? "dark" : "white"
+  },
   methods: {
     _(select) {
       return document.querySelector(select)
@@ -36,6 +40,7 @@ export default {
         this.show = "black";
       } else {
         html.className = "dark";
+        this.show = "white"
         setItem("theme", "dark");
       }
     },

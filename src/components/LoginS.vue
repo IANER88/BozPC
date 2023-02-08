@@ -138,11 +138,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@bulu: #409eff;
-@red: #e05f42;
-
 .span {
-  color: @bulu;
+  color: var(--main-color);
   padding: 5px;
   cursor: pointer;
   font-size: 13px;
@@ -157,7 +154,7 @@ export default {
   span {
     display: flex;
     font-size: 10px;
-    color: @red;
+    color: var(--error);
 
     i {
       .vertical();
@@ -174,19 +171,20 @@ export default {
 
 .inputbox {
   height: 45px;
-  background: #ebebeb;
+  background: var(--option);
   padding: 10px;
   outline: none;
   border: none;
   margin-bottom: 10px;
   border-radius: 6px;
   font-size: 15px;
+
   &:hover {
     background: #e0e0e0;
   }
 
   &:focus {
-    border: solid @bulu 2px;
+    border: solid var(--main-colors) 2px;
   }
 }
 
@@ -231,7 +229,7 @@ export default {
         width: 80%;
         height: 100%;
         line-height: 40px;
-        border: solid #dee1e6 1px;
+        border: solid var(--tint-solid) 1px;
         font-size: 14px;
         cursor: pointer;
         display: flex;
@@ -241,6 +239,8 @@ export default {
       &:nth-child(2) {
         height: 100%;
         cursor: pointer;
+        padding: 5px;
+        border: solid var(--tint-solid) 1px;
 
         img {
           width: 30px;
@@ -256,7 +256,7 @@ export default {
     margin: 5px 0;
     height: 1px;
     font-size: 7px;
-    background: #ebebeb;
+    background: var(--option);
 
     span {
       width: 45px;
@@ -264,7 +264,7 @@ export default {
       text-align: center;
       position: relative;
       display: block;
-      background: #fff;
+      background: var(--tint-color);
       top: -8px;
       margin: 0 auto;
     }
@@ -276,12 +276,12 @@ export default {
 
     +button {
       height: 40px;
-      background: @bulu;
+      background: var(--main-color);
       color: #fff;
       margin-top: 10px;
 
       &:hover {
-        background: #3491f1;
+        background: var(--main-color);
       }
 
       .button();
@@ -321,7 +321,7 @@ export default {
 
     input {
       height: 45px;
-      background: #ebebeb;
+      background: var(--option);
       padding: 10px;
       outline: none;
       border: none;
@@ -333,11 +333,11 @@ export default {
       }
 
       &:hover {
-        background: #e0e0e0;
+        background: #32363f;
       }
 
       &:focus {
-        border: solid @bulu 2px;
+        border: solid var(--main-color) 2px;
       }
     }
 
@@ -354,8 +354,9 @@ export default {
       button {
         width: 35%;
         height: 100%;
-        border: solid 1px #dee1e6 !important;
+        border: 1px var(--tint-solid) solid !important;
         background: none;
+        color: inherit;
         .button();
       }
     }
@@ -363,6 +364,6 @@ export default {
 }
 
 .alert {
-  border: solid #e05f42 2px !important;
+  border: solid var(--error) 2px !important;
 }
 </style>
