@@ -2,7 +2,12 @@
   <div class="content-center-box">
     <div class="headlines-main-box">
       <div class="headlines-box" v-for="(item, index) of entry" :key="index">
-        <a :href="`/article/${hove.author.alias}/${hove.id}`" type="_blank" v-for="hove of item" :key="hove.item">
+        <a
+          :href="`/article/${hove.author.alias}/${hove.id}`"
+          type="_blank"
+          v-for="hove of item"
+          :key="hove.item"
+        >
           <p>{{ hove.title }}</p>
           <span>{{ hove.abridged }}</span>
         </a>
@@ -10,7 +15,12 @@
     </div>
     <div class="advertising-box">
       <!-- <h3>前端框架趋势</h3> -->
-      <div :id="item.name" v-for="(item, index) of web" :key="index" @click="Link(item)">
+      <div
+        :id="item.name"
+        v-for="(item, index) of web"
+        :key="index"
+        @click="Link(item)"
+      >
         <h4>{{ item.name }}</h4>
         <i v-html="item.svgIcon" />
       </div>
@@ -21,16 +31,15 @@
 export default {
   name: "Headlines",
   data() {
-    return {
-
-    };
+    return {};
   },
+  mounted() {},
   props: ["web", "entry"],
   methods: {
     Link({ name, submenu }) {
-      window.location = `/course/${name}/${submenu.name}?id=${submenu.catalog}`
-    }
-  }
+      window.location = `/course/${name}/${submenu.name}?id=${submenu.catalog}`;
+    },
+  },
 };
 </script>
 <style scoped lang="less">
@@ -102,7 +111,7 @@ export default {
     border: solid 1px var(--tint-solid);
     padding: 10px;
 
-    >div {
+    > div {
       height: 50px;
       border-radius: 5px;
       padding: 0 30px;
@@ -152,6 +161,20 @@ export default {
     }
 
     #SvelteJS {
+      background: #c396ff;
+
+      h4 {
+        color: #fff;
+      }
+
+      /deep/svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    #Sass {
       background: #e181bc;
 
       h4 {
@@ -173,11 +196,12 @@ export default {
       }
     }
 
-    #SolidJS {
+    #SolidJS,
+    [id="React Native"] {
       background: #8ec2e8;
 
       h4 {
-        color: #3a01c6;
+        color: #fff;
       }
     }
   }

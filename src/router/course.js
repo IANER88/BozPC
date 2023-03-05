@@ -4,7 +4,7 @@ export default [
     component: () => import("/src/components/Course/Course"),
     children: [
       {
-        path: "type",
+        path: "",
         component: () => import("/src/components/Course/Type"),
       },
       {

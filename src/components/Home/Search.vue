@@ -6,13 +6,27 @@
         <div class="box">
           <div class="seach-main-box">
             <div :class="{ 'input-box': true, focus: focus }">
-              <input type="text" @focus="Focus()" @blur="Blur()" v-model="text" />
+              <input
+                type="text"
+                @focus="Focus()"
+                @blur="Blur()"
+                v-model="text"
+              />
               <div class="popover" v-show="focus">
-                <div class="topic" v-for="(item, index) of info" :key="index" v-html="item.xinde" />
+                <div
+                  class="topic"
+                  v-for="(item, index) of info"
+                  :key="index"
+                  v-html="item.xinde"
+                />
                 <div class="history-box" v-show="!text">
                   <div class="history-main-box">
                     <h6>搜索历史</h6>
-                    <div class="topic" v-for="(item, index) of history" :key="index">
+                    <div
+                      class="topic"
+                      v-for="(item, index) of history"
+                      :key="index"
+                    >
                       {{ item.text }}
                     </div>
                   </div>
@@ -28,7 +42,10 @@
         <div class="content-main-box">
           <nav></nav>
           <div class="box" v-for="(item, index) of content" :key="index">
-            <a :href="`/article/${item.author.alias}/${item.id}`" v-html="item.xinde"></a>
+            <a
+              :href="`/article/${item.author.alias}/${item.id}`"
+              v-html="item.xinde"
+            ></a>
             <div class="box-content">{{ item.content }}</div>
             <div class="like"></div>
           </div>
@@ -39,76 +56,76 @@
   </main>
 </template>
 <script>
-import Nav from './Nav';
-import LocaL from "@/assets/js/Storage"
+import Nav from "./Nav";
+import LocaL from "@/assets/js/Storage";
 export default {
-  name: 'Seach',
+  name: "Seach",
   data() {
     return {
       focus: false,
       text: "",
       info: [],
       history: [],
-      content: []
-    }
+      content: [],
+    };
   },
   async mounted() {
     if (this.$route.query.q) {
-      const rej = await this.Fetch.Home.Search({ q: this.$route.query.q })
+      if (!LocaL.get("search")) {
+        this.find([this.$route.query.q]);
+      } else {
+        const obj = JSON.parse(LocaL.get("search"));
+        this.history = [...obj.topic];
+        // 判断是否有一样的条目，没有就添加
+        if (!this.history.includes(this.$route.query.q)) {
+          this.history.push(this.$route.query.q);
+          this.find(this.history);
+        }
+      }
+      const rej = await this.Fetch.Home.Search({ q: this.$route.query.q });
       this.Def.Home.Message({
         res: rej.data,
         fun: () => {
-          this.content = this.Def.Home.Trie(rej.data)
-        }
-      })
-    } else {
-      this.$message({
-        type: "error",
-        message: "请输入查找值！"
-      })
+          this.content = this.Def.Home.Trie(rej.data);
+        },
+      });
+      return;
     }
-    if (!LocaL.get("search")) {
-      this.find([this.$route.query.q])
-      return
-    } else {
-      const obj = JSON.parse(LocaL.get("search"))
-      this.history = [...obj.topic]
-      if (this.history.indexOf(this.$route.query.q) == -1) {
-        this.history.push(this.$route.query.q)
-        this.find(this.history)
-      }
-    }
+    this.$message({
+      type: "error",
+      message: "请输入查找值！",
+    });
   },
   components: { Nav },
   methods: {
     Focus() {
-      this.focus = true
+      this.focus = true;
     },
     Blur() {
-      this.focus = false
+      this.focus = false;
     },
     find(topic) {
-      LocaL.del("search")
+      LocaL.del("search");
       LocaL.set({
         name: "search",
         text: JSON.stringify({
           topic,
-        })
-      })
+        }),
+      });
     },
     Search(text) {
-      location.href = `/search?q=${text}`
-    }
+      location.href = `/search?q=${text}`;
+    },
   },
   watch: {
     async text(news) {
       if (this.text) {
-        const rej = await this.Fetch.Home.Trie({ q: news })
-        this.info = this.Def.Home.Trie(rej.data)
+        const rej = await this.Fetch.Home.Trie({ q: news });
+        this.info = this.Def.Home.Trie(rej.data);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="less">
 body {
@@ -129,7 +146,6 @@ body {
       width: 1380px;
       margin: 0 auto;
       height: 100%;
-
 
       .seach-main-box {
         width: 1070px;
@@ -157,7 +173,6 @@ body {
               border: 1px solid var(--main-color);
               background: var(--tint-color) !important;
             }
-
           }
 
           &.focus {
@@ -261,7 +276,6 @@ body {
           border-top: 1px solid var(--tint-solid);
         }
       }
-
     }
   }
 }

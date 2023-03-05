@@ -3,12 +3,13 @@
     <Nav />
     <main id="message-box">
       <nav>
-        <router-link v-for="(item, index) of link" :key="index" :to="item.to" active-class="active">{{ item.name }}
+        <router-link v-for="(item, index) of link" :key="index" :to="item.to" active-class="active">
+          {{ item.name }}
         </router-link>
       </nav>
-      <transition :name="transition">
+      <keep-alive>
         <router-view />
-      </transition>
+      </keep-alive>
     </main>
   </main>
 </template>

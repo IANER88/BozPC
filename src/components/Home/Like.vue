@@ -192,7 +192,12 @@ export default {
 .blog-cont-up {
 
   .up-left-box {
-    width: 260px;
+    gap: 10px;
+
+    .like {
+      width: auto !important;
+      gap: 10px;
+    }
 
     >div {
       cursor: pointer;

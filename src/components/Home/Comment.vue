@@ -14,8 +14,8 @@
           <time>{{ item.time }}</time>
         </div>
         <div class="content">
-          <a :href="`/space/${item.replier.alias}`" v-if="item.replier">@{{ item.replier.name }}</a>
-          {{ item.content }}
+          <a :href="`/space/${item.replier.alias}`" v-if="item.replier" comment>@{{ item.replier.name }}</a>
+          <div class="content-text-box" v-html="item.content" />
         </div>
         <div class="like-box">
           <div class="left">
@@ -48,8 +48,7 @@
         </div>
       </div>
       <el-collapse-transition>
-        <Release :perform="Release" :ait="`@${item.author.name} `" not="true" :id="item.id"
-          v-if="item.id === subscript" />
+        <Release :perform="Release" not="true" :id="item.id" v-if="item.id === subscript" />
       </el-collapse-transition>
       <Comment v-for="(item, index) of item.box" :key="index" :item="item" :info="info" :subscript="subscript"
         :time="time" @preform="preform" :switchComment="switchComment" />
@@ -107,11 +106,12 @@ export default {
       this.$emit("preform", index);
       this.recursive.id = index;
     },
-    async Release(content, id) {
-      this.Def.Home.Comment({
+    async Release(content, id, ait) {
+      return this.Def.Home.Comment({
         content,
         id: this.info.id,
         pre_comment_id: id,
+        ait,
         fun: () => {
           this.switchComment(this.info.comments.time, false)
         }
@@ -245,10 +245,15 @@ export default {
 
   .content {
     padding: 15px 0;
-
-    a {
+    overflow-wrap: break-word;
+    width: 795px;
+    display: flex;
+    /deep/a {
       text-decoration: none;
       color: var(--main-color);
+      &[comment]{
+        margin-right: 5px;
+      }
     }
   }
 

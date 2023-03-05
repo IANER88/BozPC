@@ -10,19 +10,19 @@ import Collect from "@/components/func/collect"
 import Operate from "@/components/func/operate"
 import Tag from "@/components/func/tag"
 import Enlarge from "@/components/func/enlarge"
-import Editor from "@/components/Admin/article/Editor";
 import Relevance from "@/components/func/relevance"
 import Direct from "@/components/func/Direct"
 import Slide from "@/components/func/Slide"
 import Verification from "@/components/func/Verification"
 import $ from "jquery"
+import xss from "xss";
 export function _(dom) {
   const doms = document.querySelectorAll(dom)
   return doms
 }
 // 对浏览器URL中文进行转换
 export function Revert(szInput) {
-  var x, wch, wch1, wch2, uch = "", szRet = "";
+  let x, wch, wch1, wch2, szRet = "";
   for (x = 0; x < szInput.length; x++) {
     if (szInput.charAt(x) == "%") {
       wch = parseInt(szInput.charAt(++x) + szInput.charAt(++x), 16);
@@ -242,14 +242,14 @@ class Def {
     const Line = win ? _(win)[0] : window
     const obj = { select: main, bool }
     if (!boolean) obj.boolean = boolean
+
     Line.addEventListener("scroll", () => {
       let top;
       let int;
       let name;
-      const footer = $(nav)
+      let footer = document.querySelectorAll(nav)
       const screen = _(html)[0].scrollTop
       const hash = this._(obj)
-
       for (const h of hash) {
         const hTop = h.offsetTop
         if (screen > hTop - 80) {
@@ -260,16 +260,17 @@ class Def {
           top = h.id ? h.id : h.innerText
         }
       }
-
       if (top) {
-        for (const h of footer) {
-          const text = h.id ? h.id : h.innerText
-          fun && fun({
-            int,
-            name,
-          })
-          text == top ? h.classList.add(active) : h.classList.remove(active)
+        if (footer.length) {
+          for (const h of footer) {
+            const text = h.innerText
+            text == top ? h.classList.add(active) : h.classList.remove(active)
+          }
         }
+        fun && fun({
+          int,
+          name,
+        })
       }
     })
   }
@@ -279,7 +280,6 @@ class Def {
         item.className = "line-numbers";
       }
       Prism.highlightAll();
-      const toolbar = _(".code-toolbar .toolbar")
       // 给卡片添加跳转
       for (const element of _('[data-w-e-type="link-card"]')) {
         element.onclick = function () {
@@ -297,7 +297,9 @@ class Def {
         const box = _(select)
         if (box.length != 0) {
           const Last = box[box.length - 1].nextSibling
-          Last.parentElement.removeChild(Last)
+          if (Last.innerHTML === "<br>") {
+            Last.parentElement.removeChild(Last)
+          }
         }
       }
       func(select)
@@ -305,6 +307,13 @@ class Def {
       header.map(item => {
         item.id = item.innerText
       })
+      const videos = _("video")
+      for (const video of videos) {
+        video.autoplay = true
+        video.muted = "muted"
+        video.loop = true
+        video.controls = false
+      }
     }, 100)
     return this
   }
@@ -318,7 +327,8 @@ class Def {
           this.Home.Enlarge({
             image:
               Object.keys(temp).map(i => temp[i].src),
-            self: item
+            self: item,
+            transform: [e.offsetX, e.offsetY]
           })
         }
       }
@@ -405,7 +415,7 @@ class Def {
     Email: ""
   }
   Collect = async ({ fun, collect, id }) => {
-    if (!store.state.info.id) { window.location = "/login"; return };
+    if (!store.state.info.id) { window.location = "/login"; return }
     const { data: { list, array } } = await Fetch.Home.Collect({
       id,
       alias: store.state.info.alias
@@ -494,16 +504,24 @@ class Def {
     },
     // 评论方法
     Comment: async (obj) => {
-      if (!obj.content) {
+      if (!obj.content.trim()) {
         Message({
           type: "error",
           message: "内容不能为空!"
         })
         return
       }
+      if (obj.content.length >= 220) {
+        Message({
+          type: "error",
+          message: "最多发表220个字符"
+        })
+        return
+      }
       const data = {
-        content: obj.content,
+        content: xss(obj.content),
         article_id: obj.id,
+        ait: obj.ait
       }
       if (obj.pre_comment_id) data.pre_comment_id = obj.pre_comment_id
       const res = await Fetch.Home.Comment({
@@ -518,6 +536,7 @@ class Def {
           }
         })
       }
+      return res.data.code === 0 ? true : false
     },
     // 请求后成功的方法
     Message({ res, fun, def }) {
@@ -614,17 +633,6 @@ class Def {
         }
       }).$mount()
     },
-    // 调用式组件文章审核组件
-    Editor({ obj, render }) {
-      const Boz = Vue.extend(Editor)
-      const vm = new Boz().$mount()
-      vm._data.obj = obj
-      vm._data.render = render
-      vm._data.boolean = true
-      if (!_(".v-model")[0]) {
-        document.body.appendChild(vm.$el)
-      }
-    },
     Direct: ({ obj }) => {
       if (!_(".direct-box")[0]) {
         const Boz = Vue.extend(Direct)
@@ -690,16 +698,16 @@ class Def {
     }
     return tag
   }
-  Fication({ variable, component, obj }) {
+  Fication({ letiable, component, obj }) {
     // 封装调用式组件
-    if (!variable) {
+    if (!letiable) {
       const Boz = Vue.extend(component)
-      variable = new Boz().$mount()
-      document.body.appendChild(variable.$el)
-      variable._data.obj = obj
+      letiable = new Boz().$mount()
+      document.body.appendChild(letiable.$el)
+      letiable._data.obj = obj
 
     } else {
-      variable._data.boolean = true
+      letiable._data.boolean = true
     }
   }
   async Enroll({ email, warning, effect, init, boolean = true }) {
@@ -737,7 +745,7 @@ class Def {
     Verification: (obj) => {
       // 邮箱验证
       this.Fication({
-        variable: this.template.verification,
+        letiable: this.template.verification,
         component: Verification,
         obj
       })
@@ -746,7 +754,7 @@ class Def {
       // 修改邮箱
       const component = await import("@/components/func/Email.vue")
       this.Fication({
-        variable: this.template.Email,
+        letiable: this.template.Email,
         component: component.default,
         obj
       })
@@ -755,7 +763,7 @@ class Def {
       // 设置密码
       const component = await import("@/components/func/Password")
       this.Fication({
-        variable: this.template.Password,
+        letiable: this.template.Password,
         component: component.default,
         obj
       })
@@ -764,14 +772,14 @@ class Def {
       // 个人路径
       const component = await import("@/components/func/Way")
       this.Fication({
-        variable: this.template.Way,
+        letiable: this.template.Way,
         component: component.default,
       })
     },
     OldWay: async () => {
       const component = await import("@/components/Space/Way")
       this.Fication({
-        variable: this.template.OldWay,
+        letiable: this.template.OldWay,
         component: component.default,
       })
     }

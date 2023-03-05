@@ -1,11 +1,11 @@
 import { Boot } from "@wangeditor/editor";
-import Module from "@wangeditor/plugin-link-card";
+import LinkCard from "@wangeditor/plugin-link-card";
 import { Model } from "@/assets/js/option"
 import Markdown from '@wangeditor/plugin-md'
 import Fetch from "./Fetch"
 import _ from "jquery"
 Boot.registerModule(Markdown)
-Boot.registerModule(Module);
+Boot.registerModule(LinkCard);
 Boot.registerModule(Model)
 
 
@@ -71,7 +71,7 @@ export default {
       withCredentials: true,
       // 小于该值就插入 base64 格式（而不上传），默认为 0
       base64LimitSize: 5 * 1024, // 5kb
-      server: 'http://fetch.bozhan.top/admin/upload/image/editor',
+      server: 'http://fetch.bozhan.top/admin/upload/editor',
     },
   },
 }

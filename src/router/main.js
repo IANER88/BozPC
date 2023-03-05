@@ -1,5 +1,4 @@
 import VueRouter from "vue-router";
-import Admin from "./admin"
 import Course from "./course"
 import Space from "./space"
 import Home from "./home"
@@ -10,7 +9,6 @@ export default new VueRouter({
     ...Home,
     ...Course,
     ...Space,
-    ...Admin,
     ...Knowledge,
     {
       path: "/notAuth",
@@ -46,6 +44,6 @@ export default new VueRouter({
     {
       path: "404",
       component: () => import("@/components/NotFound")
-    }
+    },
   ]
 })

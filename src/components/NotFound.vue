@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="boz">
-      <h1>404</h1>
+      <img src="../assets/img/404.png" alt="">
     </div>
     <div class="item">
       <!-- <h1>页面被外星人劫走了!</h1> -->
@@ -23,14 +23,16 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+body{
+  overflow: hidden;
+}
 .box {
   width: 60%;
   height: 60vh;
   display: flex;
   margin: 150px auto;
   justify-content: space-between;
-
   .boz {
     width: 400px;
     height: 400px;

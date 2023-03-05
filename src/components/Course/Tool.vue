@@ -5,7 +5,7 @@
       <div>
         <ul>
           <li v-for="tool in info" :key="tool.id">
-            <a :href="`#${tool.name}`">{{ tool.name }}</a>
+            <a :href="tool.name">{{ tool.name }}</a>
             <span></span>
           </li>
         </ul>
@@ -37,10 +37,9 @@ export default {
       info: [],
     };
   },
-  mounted() {
-    this.Fetch.Course.Tool().then((res) => {
-      this.info = res.data;
-    });
+  async mounted() {
+    const { data } = await this.Fetch.Tool({})
+    this.info = data
   },
 };
 </script>

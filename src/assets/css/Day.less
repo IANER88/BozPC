@@ -79,6 +79,10 @@ html {
   --tabel-solid: #ccc;
   --account-tint-color: #8a8f8d;
   --collect-nav: #eff0f0;
+  --card: #ebf0f3;
+  --green: #f6ffed;
+  --cyan: #e6fffb;
+  --blue: #e6f4ff;
 }
 
 #editor-box,
@@ -110,15 +114,18 @@ main.course-content-box,
 }
 
 .w-e-text-container [data-slate-editor] pre>code {
+  font-family: "JetBrains Mono" !important;
   color: #fff;
 }
 
 .w-e-text-container [data-slate-editor] blockquote {
   background-color: var(--blockquote) !important
 }
+
 #nprogress .bar {
   background: var(--main-color) !important; //自定义颜色
 }
+
 .w-e-textarea-link-card-container {
 
   width: 100% !important;
@@ -128,6 +135,7 @@ main.course-content-box,
   gap: 15px;
   min-height: 91px;
   border: 1px solid var(--tint-solid);
+
   .w-e-textarea-link-card-icon-container {
     width: 78px !important;
     height: 78px !important;
@@ -496,6 +504,9 @@ span.tag-box {
   --course-hover: var(--option);
   --tabel-solid: var(--tint-solid);
   --collect-nav: var(--option);
+  --card: #232c32;
+  --cyan: #08979c;
+  --green: rgb(135, 208, 104);
 }
 
 .dark .el-tag {
@@ -550,10 +561,15 @@ html.dark {
 
   #course,
   .article {
-    span[style] {
+    span[style*="background"] {
       background-color: var(--pre-background) !important;
-      color: rgb(114, 192, 64) !important;
+      color: #c9def1 !important;
     }
+  }
+
+  [tag] {
+    color: #ffffff;
+    border: none;
   }
 
   .def {
@@ -581,4 +597,29 @@ html.dark {
       }
     }
   }
+}
+
+[tag] {
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 5px;
+  border: 1px solid;
+}
+
+.tag-green {
+  color: #389e0d;
+  background: var(--green);
+  border-color: #b7eb8f;
+}
+
+.tag-cyan {
+  color: #08979c;
+  background: var(--cyan);
+  border-color: #87e8de;
+}
+
+.tag-blue {
+  color: #0958d9;
+  background: var(--blue);
+  border-color: #91caff;
 }

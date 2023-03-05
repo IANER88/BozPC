@@ -2,9 +2,7 @@
   <div id="course">
     <HomeNav />
     <Nav />
-    <!-- <transition name="slide-right"> -->
     <router-view />
-    <!-- </transition> -->
   </div>
 </template>
 

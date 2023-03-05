@@ -6,15 +6,30 @@
         <div class="catalog-box" v-for="item of catalog" :key="item.id">
           <span>{{ item.name }}</span>
           <div class="title-box" v-for="hove of item.title" :key="hove.id">
-            <span @click="Content({
-              name: hove.name,
-              id: hove.id
-            })" :class="{ active: index === hove.id }">
+            <span
+              @click="
+                Content({
+                  name: hove.name,
+                  id: hove.id,
+                })
+              "
+              :class="{ active: index === hove.id }"
+            >
               {{ hove.name }}
             </span>
-            <div class="hash-box" v-for="home of hove.title" :key="home.id" v-show="index === hove.id">
+            <div
+              class="hash-box"
+              v-for="home of hove.title"
+              :key="home.id"
+              v-show="index === hove.id"
+            >
               <span @click="hash(home.hash)">{{ home.hash }}</span>
-              <span class="hash-next-box" v-for="bash of home.list" :key="bash.hash" @click="hash(bash.hash)">
+              <span
+                class="hash-next-box"
+                v-for="bash of home.list"
+                :key="bash.hash"
+                @click="hash(bash.hash)"
+              >
                 {{ bash.hash }}
               </span>
             </div>
@@ -22,22 +37,39 @@
         </div>
       </nav>
       <div class="course-main-box">
-        <div class="course-center-box" :style="`width:${int}%`" v-for="(item, index) of content" :key="index">
+        <div
+          class="course-center-box"
+          :style="`width:${int}%`"
+          v-for="(item, index) of content"
+          :key="index"
+        >
           <h1 :id="item.name" :int="item.id">{{ item.name }}</h1>
           <main class="course-content-box" v-html="item.content" />
         </div>
         <p :style="`width:${int}%`" v-show="!decode">
-          <span v-if="upper.name" class="upper" @click="Content({
-            name: upper.name,
-            id: upper.id,
-          })">
+          <span
+            v-if="upper.name"
+            class="upper"
+            @click="
+              Content({
+                name: upper.name,
+                id: upper.id,
+              })
+            "
+          >
             <i class="el-icon-back" />
             {{ upper.name }}
           </span>
-          <span @click="Content({
-            name: next.name,
-            id: next.id,
-          })" class="next" v-if="next.name">
+          <span
+            @click="
+              Content({
+                name: next.name,
+                id: next.id,
+              })
+            "
+            class="next"
+            v-if="next.name"
+          >
             {{ next.name }}
             <i class="el-icon-right" />
           </span>
@@ -45,7 +77,12 @@
       </div>
     </main>
     <div class="func-box">
-      <el-tooltip class="item" effect="dark" content="演示:P" placement="bottom-start">
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="演示:P"
+        placement="bottom-start"
+      >
         <div v-html="Icon.Course.slide" class="solid" @click.stop="Slide()" />
       </el-tooltip>
       <Fun :author="false">
@@ -58,14 +95,24 @@
             <span>超屏模式</span>
             <em>适合超宽表格展示效果</em>
           </div>
-          <el-switch v-model="value" @change="switc()" active-color="#13ce66" inactive-color="#bec0bf" />
+          <el-switch
+            v-model="value"
+            @change="switc()"
+            active-color="#13ce66"
+            inactive-color="#bec0bf"
+          />
         </div>
         <div class="window">
           <div>
             <span>连续阅读模式</span>
             <em>不需要点目录切换</em>
           </div>
-          <el-switch v-model="decode" @change="read()" active-color="#13ce66" inactive-color="#bec0bf" />
+          <el-switch
+            v-model="decode"
+            @change="read()"
+            active-color="#13ce66"
+            inactive-color="#bec0bf"
+          />
         </div>
         <div class="span" @click="screen()">
           {{ screens.init }}
@@ -73,21 +120,21 @@
         <div class="span" v-if="peport">举报</div>
       </Fun>
     </div>
-    <toTOP />
+    <Top />
   </div>
 </template>
 <script>
-import "@/assets/css/prism.css"
-import "@/assets/css/Articles.less"
-import toTOP from "@/components/toTop"
-import Nav from '../Home/Nav';
-import Translater from "translater.js"
+import "@/assets/css/prism.css";
+import "@/assets/css/Articles.less";
+import Top from "@/components/toTop";
+import Nav from "../Home/Nav";
+import Translater from "translater.js";
 import Fun from "../func/Fun.vue";
 const tran = new Translater({
-  lang: "cn"
-})
+  lang: "cn",
+});
 export default {
-  name: 'Content',
+  name: "Content",
   data() {
     return {
       catalog: [],
@@ -95,7 +142,7 @@ export default {
       title: [],
       upper: {},
       next: {},
-      catalog_id: '',
+      catalog_id: "",
       index: "",
       show: false,
       value: false,
@@ -104,39 +151,40 @@ export default {
       solid: true,
       screens: {
         init: "全屏",
-        bool: false
+        bool: false,
       },
       fun: {
         nav: ".title-box .active ~ .hash-box span",
         active: "title-active",
-        bool: false
+        bool: false,
       },
       boolean: true,
       translation: {
         name: "default",
         title: "翻译",
-        func: ""
-      }
-    }
+        func: "",
+      },
+    };
   },
   async mounted() {
     const { data } = await this.Fetch.Course({
       method: "put",
-      url: `/course?name=${this.$route.params.name}`
-    })
-    this.catalog = data.catalog
-    this.Render({ name: this.$route.params.title, id: this.$route.query.id })
+      url: `/course?name=${this.$route.params.name}`,
+    });
+    this.catalog = data.catalog;
+    this.Render({ name: this.$route.params.title, id: this.$route.query.id });
     this.Def.scrollSpy(this.fun);
     window.addEventListener("click", () => {
-      this.show = false
-    })
+      this.show = false;
+    });
   },
   updated() {
     if (this.decode) {
       // 清除掉上一个共同监听事件
-      window.removeEventListener("scroll", () => { })
+      window.removeEventListener("scroll", () => {});
       this.fun.fun = ({ int, name }) => {
-        this.index = int
+        console.log(int, name);
+        this.index = int;
         this.$router.replace({
           name: "content",
           query: {
@@ -146,53 +194,56 @@ export default {
             name: this.$route.params.name,
             title: name,
           },
-        })
-      }
+        });
+      };
       this.Def.scrollSpy(this.fun);
     }
   },
   props: {
     peport: {
       default: true,
-    }
+    },
   },
   methods: {
     switc(e) {
-      this.value ? this.int = 86 : this.int = 66
+      this.value ? (this.int = 86) : (this.int = 66);
     },
     async read() {
       let time;
       let hash;
-      clearTimeout(time)
-      clearTimeout(hash)
+      clearTimeout(time);
+      clearTimeout(hash);
       if (this.decode) {
         time = setTimeout(() => {
           this.Render({
             method: "post",
             url: `/course?name=${this.$route.params.name}`,
-          })
-          hash = setTimeout(this.hash, 100)
+          });
+          hash = setTimeout(this.hash, 100);
         }, 700);
       } else {
-        this.Render({ name: this.$route.params.title, id: this.$route.query.id })
+        this.Render({
+          name: this.$route.params.title,
+          id: this.$route.query.id,
+        });
       }
     },
     hide(e) {
-      this.show = !this.show
+      this.show = !this.show;
     },
     async Slide() {
-      this.boolean = false
+      this.boolean = false;
       const res = await this.Fetch.Course({
         method: "post",
-        url: `/course?name=${this.$route.params.name}`
-      })
+        url: `/course?name=${this.$route.params.name}`,
+      });
       this.Def.Slide({
         content: res.data,
         catalog: this.catalog,
         fun: () => {
-          this.boolean = true
-        }
-      })
+          this.boolean = true;
+        },
+      });
     },
     screen() {
       this.Def.Screen({
@@ -200,22 +251,22 @@ export default {
         fun: () => {
           this.screens = {
             init: "全屏",
-            bool: false
-          }
+            bool: false,
+          };
         },
         def: () => {
           this.screens = {
             init: "取消全屏",
-            bool: true
-          }
-        }
-      })
+            bool: true,
+          };
+        },
+      });
     },
     async Content({ name, id }) {
-      const { params, query } = this.$route
+      const { params, query } = this.$route;
       // 相同目录不执行，除非是连读模式
       let time;
-      clearTimeout(time)
+      clearTimeout(time);
       if (params.title != name || query.id !== id) {
         this.$router.push({
           name: "content",
@@ -228,11 +279,11 @@ export default {
           },
         });
         if (!this.decode) {
-          this.Render({ name, id })
-          return
+          this.Render({ name, id });
+          return;
         }
       }
-      this.INT()
+      this.INT();
       time = setTimeout(this.hash, 100);
     },
     async Render(obj) {
@@ -240,50 +291,53 @@ export default {
         id,
         name,
         method = "patch",
-        url = `/course?name=${name}&id=${id}`
-      } = obj
-      const list = []
+        url = `/course?name=${name}&id=${id}`,
+      } = obj;
+      const list = [];
       const { data } = await this.Fetch.Course({
         method,
         url,
       });
       if (!this.decode) {
-        const { content, cataloguet: { upper, next } } = data
-        this.content = []
+        const {
+          content,
+          cataloguet: { upper, next },
+        } = data;
+        this.content = [];
         document.documentElement.scrollTop = 0;
-        this.upper = upper
-        this.next = next
-        this.content = content
+        this.upper = upper;
+        this.next = next;
+        this.content = content;
         this.Def.Animation({
           box: ".course-center-box",
-          actives: "course-active"
-        })
+          actives: "course-active",
+        });
       } else {
         for (const ts of data.slide) {
-          list.push(...ts.course)
+          list.push(...ts.course);
         }
-        this.content = list
+        this.content = list;
       }
-      this.INT()
+      this.INT();
       this.Def.PrismAll()
         .LastpDom({ select: ".course-content-box > .code-toolbar" })
-        .Enlarge(".course-content-box")
+        .Enlarge(".course-content-box");
     },
     hash(hash = this.$route.params.title) {
-      return this.Def.toHash(`#${hash}`)
+      return this.Def.toHash(`#${hash}`);
     },
     INT() {
       setTimeout(() => {
-        if (!this.decode) this.index = Number(this.$route.query.id)
+        if (!this.decode) this.index = Number(this.$route.query.id);
         document.title = `${this.$route.params.title} · ${this.$route.params.name}`;
-      }, 100)
+      }, 100);
     },
     translater() {
-      location.href = `?id=${this.$route.query.id}&lang=jp`
-    }
+      location.href = `?id=${this.$route.query.id}&lang=jp`;
+    },
   },
-  components: { Nav, toTOP, Fun }
-}
+  components: { Nav, Top, Fun },
+};
 </script>
 <style scoped lang="less">
 #course {
@@ -316,7 +370,7 @@ export default {
 
       .course-center-box {
         margin: 0 auto 50px;
-        transition: .3s ease-in-out;
+        transition: 0.3s ease-in-out;
 
         &.course-active {
           animation: load 1s;
@@ -329,7 +383,7 @@ export default {
           }
         }
 
-        +p {
+        + p {
           border-top: solid var(--course-solid) 1px;
           width: 65%;
           height: 65px;
@@ -350,13 +404,11 @@ export default {
             }
           }
         }
-
       }
 
       .course-content-box {
         padding-top: 2rem;
       }
-
     }
   }
 
@@ -375,7 +427,7 @@ export default {
 
     @-moz-document url-prefix() {
       border-right: 10px solid var(--course-solid);
-      scrollbar-width: none
+      scrollbar-width: none;
     }
 
     &::-webkit-scrollbar {
@@ -395,7 +447,7 @@ export default {
       flex-direction: column;
       // grid-gap: 10px;
 
-      >span {
+      > span {
         font-size: 1.1rem;
         font-weight: bold;
         padding: 5px 32px;
@@ -405,7 +457,7 @@ export default {
         display: flex;
         flex-direction: column;
 
-        >span {
+        > span {
           padding: 5px 0 5px 40px;
           font-size: 1rem;
           cursor: pointer;
@@ -438,7 +490,7 @@ export default {
           display: flex;
           flex-direction: column;
 
-          >span {
+          > span {
             padding-left: 50px;
             cursor: pointer;
           }
@@ -473,13 +525,12 @@ export default {
     .system {
       position: relative;
 
-      >div {
-        .flex()
+      > div {
+        .flex();
       }
 
       .content {
-
-        >div {
+        > div {
           width: 100%;
           padding: 15px;
           .flex();
@@ -518,8 +569,8 @@ export default {
       }
     }
 
-    >div,
-    >span {
+    > div,
+    > span {
       width: 32px;
       height: 32px;
       cursor: pointer;

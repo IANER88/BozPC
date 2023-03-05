@@ -18,7 +18,7 @@
             <span>回复</span>
             <a :href="`/space/${item.recipien.alias}`">@{{ item.recipien.name }}</a>
             <i>:</i>
-            <p>{{ item.actor.content }}</p>
+            <p v-html="item.actor.content" />
           </div>
           <div class="my-box">
             <p>{{ item.recipien.name }} : {{ item.recipien.content }}</p>
@@ -37,7 +37,7 @@
                 <i v-html="Icon.Home.comment" />
                 回复
               </span>
-              <span class="delete">
+              <span class="delete" @click.stop="Del()">
                 <i class="el-icon-delete" />
                 删除该条通知
               </span>
@@ -85,9 +85,8 @@ export default {
       content: ""
     };
   },
-  async mounted() {
-    const { data } = await this.Fetch.Home.Notify({ method: "post", type: 3 })
-    this.info = data.comment
+  mounted() {
+    this.element()
   },
   methods: {
     show(val) {
@@ -108,9 +107,24 @@ export default {
         content: this.content,
         id: index,
         pre_comment_id: id,
+        ait: [],
         fun: () => {
           this.hide = false
         }
+      })
+    },
+    async element() {
+      const { data } = await this.Fetch.Home.Notify({ method: "post", type: 3 })
+      this.info = data.comment
+    },
+    async Del(id) {
+      const { data } = await this.Fetch.Home.Notify({
+        type: id,
+        method: "delete"
+      })
+      this.Def.Home.Message({
+        res: data,
+        fun: () => this.element()
       })
     }
   }
@@ -175,6 +189,11 @@ export default {
 
           p {
             line-height: normal !important;
+
+            /deep/a {
+              text-decoration: none;
+              color: var(--main-color);
+            }
           }
 
           a {

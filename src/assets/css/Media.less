@@ -91,7 +91,7 @@
           width: 100% !important;
           padding: 0 !important;
           display: flex !important;
-          overflow: hidden;
+          overflow-x: auto;
         }
       }
     }
@@ -189,6 +189,7 @@
     width: 100% !important;
     padding: 20px;
     height: auto;
+
     .footer-left-box {
       width: 100% !important;
     }
@@ -199,7 +200,7 @@
     }
 
     .footer-right-box {
-      padding: none;
+      padding: 0;
       display: none !important;
     }
   }
@@ -234,6 +235,43 @@
 
       .other-box {
         display: none !important;
+      }
+    }
+  }
+
+  #course {
+
+    div.func-box,
+    .to,
+    .course-nav {
+      display: none !important;
+    }
+
+    .course-main-box {
+      margin: 0 !important;
+      padding: 1rem 15px 0 !important;
+
+      .course-content-box {
+        padding-top: none !important;
+      }
+
+      h1 {
+        padding-top: 1rem !important;
+        padding-bottom: 2rem !important;
+        font-size: 32px !important;
+      }
+
+      h2 {
+        font-size: 24px !important;
+        padding: 0 !important;
+      }
+
+      .course-center-box {
+        width: 100% !important;
+
+        &+p {
+          width: 100% !important;
+        }
       }
     }
   }

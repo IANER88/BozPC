@@ -36,7 +36,7 @@
 </template>
 <script>
 export default {
-  name: 'Label',
+  name: "Label",
   data() {
     return {
       huang: [],
@@ -132,9 +132,10 @@ export default {
 }
 </script>
 <style scoped lang="less">
-/deep/.el-input{
+/deep/.el-input {
   width: 100% !important;
 }
+
 .label-box {
   display: flex;
   margin-bottom: 20px;

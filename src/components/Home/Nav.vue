@@ -5,20 +5,34 @@
         <Logo title="Bozhan" />
         <div class="nav">
           <ul>
-            <li v-for="(item, index) in nav" :key="index">
-              <a :href="item.path">{{ item.name }}</a>
+            <li><a href="/course">教程</a></li>
+            <li><a href="">开源</a></li>
+            <li><a href="knowledge">知识库</a></li>
+            <li><a href="">学语言</a></li>
+            <li><a href="">工具</a></li>
+            <li>
+              <a href="/download"> <i v-html="Icon.Home.download" />移动端 </a>
             </li>
           </ul>
         </div>
       </div>
       <div class="search" v-if="boolean">
         <div :class="{ form: true, focus: focus }">
-          <input type="text" placeholder="输入想搜的..." @focus="Focus()" @blur="blur && Blur()" v-model="searchBox.search"
-            @keyup.enter="Search(searchBox.search)" />
+          <input
+            type="text"
+            placeholder="输入想搜的..."
+            @focus="Focus()"
+            @blur="blur && Blur()"
+            v-model="searchBox.search"
+            @keyup.enter="Search(searchBox.search)"
+          />
           <button @click.stop="Search(searchBox.search)">搜索</button>
         </div>
         <div :class="{ 'search-panel': true, active: hide }">
-          <div class="history-box" v-show="!searchBox.search || !searchBox.results.length">
+          <div
+            class="history-box"
+            v-show="!searchBox.search || !searchBox.results.length"
+          >
             <!-- 历史搜索 -->
             <div class="search-history" v-show="searchHistory.topic.length">
               <div class="title">
@@ -26,7 +40,11 @@
                 <span @click.stop="empty()">清空</span>
               </div>
               <div class="box">
-                <div class="item" v-for="(item, index) of searchHistory.topic" :key="index">
+                <div
+                  class="item"
+                  v-for="(item, index) of searchHistory.topic"
+                  :key="index"
+                >
                   <span @click.stop="Search(item)">{{ item }}</span>
                   <i v-html="Icon.Home.del" @click.stop="del(item)" />
                 </div>
@@ -38,9 +56,16 @@
                 <h5>Bozhan热搜</h5>
               </div>
               <div class="top-serch-box">
-                <div class="top-serch-main" v-for="(item, index) of TopSerch" :key="index">
+                <div
+                  class="top-serch-main"
+                  v-for="(item, index) of TopSerch"
+                  :key="index"
+                >
                   <div class="topic" v-for="haver of item" :key="haver.id">
-                    <div class="topic-main-box" @click.stop="Search(haver.topic)">
+                    <div
+                      class="topic-main-box"
+                      @click.stop="Search(haver.topic)"
+                    >
                       <i :class="`item-${haver.int}`">{{ haver.int }}</i>
                       <p>{{ haver.topic }}</p>
                     </div>
@@ -50,16 +75,27 @@
               </div>
             </div>
           </div>
-          <div class="trie-box" v-show="searchBox.search && searchBox.results.length">
-            <div class="topic" v-for="(item, index) of searchBox.results" :key="index"
-              v-html="item.xinde ? item.xinde : item.text" @click="Search(item.text)" />
+          <div
+            class="trie-box"
+            v-show="searchBox.search && searchBox.results.length"
+          >
+            <div
+              class="topic"
+              v-for="(item, index) of searchBox.results"
+              :key="index"
+              v-html="item.xinde ? item.xinde : item.text"
+              @click="Search(item.text)"
+            />
           </div>
         </div>
       </div>
       <div :class="{ create: true, noLogin: !$store.state.info.name }">
         <div class="popover" v-if="$store.state.info.name">
           <a :href="`/space/${$store.state.info.alias}`" class="avatar">
-            <img :src="$store.state.info.avatar" :class="{ onhover: popover }" />
+            <img
+              :src="$store.state.info.avatar"
+              :class="{ onhover: popover }"
+            />
           </a>
           <transition name="el-fade-in-linear">
             <div class="popover-box" v-show="popover">
@@ -87,28 +123,50 @@
                     <span>{{ item.title }}</span>
                   </div>
                   <i>
-                    <svg width="10" height="10" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"
-                      class="link-icon--right">
-                      <path fill-rule="evenodd" clip-rule="evenodd"
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 9 9"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="link-icon--right"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M7.50588 3.40623C7.40825 3.3086 7.24996 3.3086 7.15232 3.40623L4.41244 6.14612L1.67255 3.40623C1.57491 3.3086 1.41662 3.3086 1.31899 3.40623C1.22136 3.50386 1.22136 3.66215 1.31899 3.75978L4.11781 6.5586C4.28053 6.72132 4.54434 6.72132 4.70706 6.5586L7.50588 3.75978C7.60351 3.66215 7.60351 3.50386 7.50588 3.40623Z"
-                        fill="currentColor"></path>
+                        fill="currentColor"
+                      ></path>
                       <path
                         d="M7.15232 3.40623L7.50588 3.75978L7.50588 3.75978L7.15232 3.40623ZM7.50588 3.40623L7.15232 3.75978L7.15233 3.75978L7.50588 3.40623ZM4.41244 6.14612L4.05888 6.49967C4.15265 6.59344 4.27983 6.64612 4.41244 6.64612C4.54504 6.64612 4.67222 6.59344 4.76599 6.49967L4.41244 6.14612ZM1.67255 3.40623L2.0261 3.05268L2.0261 3.05268L1.67255 3.40623ZM1.31899 3.40623L0.965439 3.05268L0.965439 3.05268L1.31899 3.40623ZM1.31899 3.75978L1.67255 3.40623V3.40623L1.31899 3.75978ZM4.11781 6.5586L3.76425 6.91215L4.11781 6.5586ZM4.70706 6.5586L4.35351 6.20505L4.70706 6.5586ZM7.50588 3.75978L7.15233 3.40623L7.15232 3.40623L7.50588 3.75978ZM7.50588 3.75978C7.40825 3.85742 7.24996 3.85742 7.15232 3.75978L7.85943 3.05268C7.56654 2.75978 7.09166 2.75978 6.79877 3.05268L7.50588 3.75978ZM4.76599 6.49967L7.50588 3.75978L6.79877 3.05268L4.05888 5.79257L4.76599 6.49967ZM1.31899 3.75978L4.05888 6.49967L4.76599 5.79257L2.0261 3.05268L1.31899 3.75978ZM1.67254 3.75979C1.57491 3.85742 1.41662 3.85742 1.31899 3.75979L2.0261 3.05268C1.73321 2.75978 1.25833 2.75978 0.965439 3.05268L1.67254 3.75979ZM1.67255 3.40623C1.77018 3.50386 1.77018 3.66215 1.67255 3.75978L0.965439 3.05268C0.672546 3.34557 0.672546 3.82044 0.965439 4.11334L1.67255 3.40623ZM4.47136 6.20505L1.67255 3.40623L0.965439 4.11334L3.76425 6.91215L4.47136 6.20505ZM4.35351 6.20505C4.38605 6.1725 4.43882 6.1725 4.47136 6.20505L3.76425 6.91215C4.12223 7.27013 4.70264 7.27013 5.06062 6.91215L4.35351 6.20505ZM7.15232 3.40623L4.35351 6.20505L5.06062 6.91215L7.85943 4.11334L7.15232 3.40623ZM7.15233 3.75978C7.05469 3.66215 7.05469 3.50386 7.15233 3.40623L7.85943 4.11334C8.15233 3.82045 8.15233 3.34557 7.85943 3.05268L7.15233 3.75978Z"
-                        fill="currentColor"></path>
+                        fill="currentColor"
+                      ></path>
                     </svg>
                   </i>
                 </a>
               </div>
               <div class="logout-box" @click="Log()">
                 <i>
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="link-icon">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="link-icon"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M17.6137 9.30115C17.6932 9.10837 17.6932 8.89282 17.6137 8.70004C17.5743 8.60393 17.5165 8.51726 17.4443 8.44504L15.2221 6.22282C14.9148 5.9156 14.4176 5.91615 14.111 6.22282C13.8043 6.52948 13.8037 7.02671 14.111 7.33393L14.9921 8.21504L7.99985 8.21504C7.56596 8.21448 7.21429 8.56615 7.21429 9.00059C7.21429 9.21726 7.30207 9.41393 7.44429 9.55615C7.58651 9.69837 7.78318 9.78615 7.99985 9.78615L14.9921 9.78615L14.111 10.6673C13.8043 10.9739 13.8037 11.4712 14.111 11.7784C14.4182 12.0856 14.9154 12.085 15.2221 11.7784L17.4443 9.55615C17.5165 9.48393 17.5743 9.39726 17.6137 9.30115"
-                      fill="var(--text2)"></path>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      fill="var(--text2)"
+                    ></path>
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M11.8889 5.11111C9.74127 2.96349 6.25873 2.96349 4.11111 5.11111C1.96349 7.25873 1.96349 10.7413 4.11111 12.8889C6.25873 15.0365 9.74127 15.0365 11.8889 12.8889C12.1957 12.5821 12.6932 12.5821 13 12.8889C13.3068 13.1957 13.3068 13.6932 13 14C10.2387 16.7613 5.76127 16.7613 3 14C0.238731 11.2387 0.23873 6.76127 3 4C5.76127 1.23873 10.2387 1.23873 13 4C13.3068 4.30683 13.3068 4.80429 13 5.11111C12.6932 5.41794 12.1957 5.41794 11.8889 5.11111Z"
-                      fill="var(--text2)"></path>
+                      fill="var(--text2)"
+                    ></path>
                   </svg>
                 </i>
                 <span>退出登录</span>
@@ -129,17 +187,33 @@
                   <main class="main-box">
                     <div class="item" v-for="(item, index) of box" :key="index">
                       <a :href="item.path">{{ item.message }}</a>
-                      <Badge right="27px" top="10px" v-if="item.count !== 0" :value="item.count" />
+                      <Badge
+                        right="27px"
+                        top="10px"
+                        v-if="item.count !== 0"
+                        :value="item.count"
+                      />
                     </div>
                   </main>
                 </div>
               </transition>
             </li>
-            <Popover className="dynamic-box" :bool="true" :info="dynamic"
-              :href="`/space/${$store.state.info.alias}/dynamic`" name="动态" description="暂无动态!" />
+            <Popover
+              className="dynamic-box"
+              :bool="true"
+              :info="dynamic"
+              :href="`/space/${$store.state.info.alias}/dynamic`"
+              name="动态"
+              description="暂无动态!"
+            />
             <Collect />
-            <Popover className="history" :info="history" :href="`/space/${$store.state.info.alias}/history`" name="历史"
-              description="暂无浏览足迹!" />
+            <Popover
+              className="history"
+              :info="history"
+              :href="`/space/${$store.state.info.alias}/history`"
+              name="历史"
+              description="暂无浏览足迹!"
+            />
             <li>
               <a href="/platform">创作中心</a>
             </li>
@@ -156,7 +230,7 @@
 <script>
 import Root from "../Root";
 import Badge from "./Parts/Badge";
-import LocaL from "@/assets/js/Storage"
+import LocaL from "@/assets/js/Storage";
 import Popover from "./Parts/Popover";
 import Collect from "./Parts/Collect";
 import Logo from "../Logo";
@@ -188,7 +262,7 @@ export default {
         },
         {
           path: "/chat",
-          name: "问答",
+          name: "移动端",
         },
       ],
       box: [
@@ -258,8 +332,8 @@ export default {
       blur: true,
       visible: false,
       time: "",
-      infoTime: ""
-    }
+      infoTime: "",
+    };
   },
   props: {
     hide: {
@@ -270,12 +344,12 @@ export default {
     },
   },
   async mounted() {
-    const search = await this.Fetch.Home.Search({ method: "put" })
-    this.TopSerch = search.data.search
+    const search = await this.Fetch.Home.Search({ method: "put" });
+    this.TopSerch = search.data.search;
     setTimeout(async () => {
       if (this.$store.state.info.name) {
-        this.render()
-        this.$emit("render", this.render)
+        this.render();
+        this.$emit("render", this.render);
         const func = this.Def.Home.Hover({
           dom: ".message-box",
           enter: () => {
@@ -283,7 +357,7 @@ export default {
           },
           leave: () => {
             this.boxBoole.message = false;
-          }
+          },
         }).Hover({
           dom: ".popover",
           enter: () => {
@@ -291,8 +365,8 @@ export default {
           },
           leave: () => {
             this.popover = false;
-          }
-        })
+          },
+        });
         if (this.boolean) {
           func.Hover({
             dom: ".search-panel",
@@ -301,8 +375,8 @@ export default {
             },
             leave: () => {
               this.blur = true;
-            }
-          })
+            },
+          });
         }
       }
     }, 100);
@@ -318,25 +392,28 @@ export default {
         res: data,
         fun: () => {
           location.reload();
-        }
-      })
+        },
+      });
     },
     Focus() {
-      this.focus = true
+      this.focus = true;
     },
     Blur() {
-      this.focus = false
+      this.focus = false;
     },
     Search(text) {
-      location.href = `/search?q=${text}`
+      location.href = `/search?q=${text}`;
     },
     del(text) {
-      this.searchHistory.topic = this.searchHistory.topic.filter(item => item !== text)
-      LocaL.del("search")
-      LocaL.set({ name: "search", text: JSON.stringify(this.searchHistory) })
+      this.searchHistory.topic = this.searchHistory.topic.filter(
+        (item) => item !== text
+      );
+      LocaL.del("search");
+      LocaL.set({ name: "search", text: JSON.stringify(this.searchHistory) });
     },
     empty() {
-      LocaL.del("search")
+      this.searchHistory = { topic: [] };
+      LocaL.del("search");
     },
     async render() {
       const [res, dynamic, history] = await Promise.all([
@@ -345,26 +422,26 @@ export default {
         this.Fetch.Home.History({ number: 1 }),
       ]);
       this.Count = res.data.count;
-      this.dynamic = dynamic.data.info
-      this.history = history.data.history
-      this.box.map(item => {
+      this.dynamic = dynamic.data.info;
+      this.history = history.data.history;
+      this.box.map((item) => {
         item.count = res.data[item.type];
       });
     },
     Link(name) {
-      return `/space/${this.$store.state.info.alias}/${name}`
-    }
+      return `/space/${this.$store.state.info.alias}/${name}`;
+    },
   },
   watch: {
     "searchBox.search": {
       handler(news) {
-        this.searchBox.results = []
+        this.searchBox.results = [];
         if (this.searchBox.search.trim()) {
-          clearTimeout(this.time)
+          clearTimeout(this.time);
           this.time = setTimeout(async () => {
-            const rej = await this.Fetch.Home.Trie({ q: news.trim() })
-            this.searchBox.results = this.Def.Home.Trie(rej.data)
-          }, 500)
+            const rej = await this.Fetch.Home.Trie({ q: news.trim() });
+            this.searchBox.results = this.Def.Home.Trie(rej.data);
+          }, 500);
         }
       },
     },
@@ -395,6 +472,7 @@ export default {
   .info {
     width: 478px;
     display: flex;
+    gap: 15px;
   }
 
   .navs {
@@ -421,11 +499,17 @@ export default {
 
       li {
         list-style: none;
-        padding: 0 10px;
 
         a {
           text-decoration: none;
+          display: flex;
           color: var(--color);
+          align-items: center;
+          gap: 5px;
+          i {
+            display: flex;
+            align-items: center;
+          }
         }
       }
     }
@@ -459,7 +543,7 @@ export default {
         border: solid 1px var(--tint-two-background);
         border-bottom: none;
 
-        +div {
+        + div {
           display: flex;
         }
 
@@ -801,7 +885,7 @@ export default {
             }
           }
 
-          >i {
+          > i {
             svg {
               transform: rotate(-90deg);
             }
@@ -914,8 +998,8 @@ export default {
           flex-direction: column;
           top: 33px;
           padding-top: 15px;
-          transition: all .3s;
-          animation: displays .3s;
+          transition: all 0.3s;
+          animation: displays 0.3s;
 
           main.main-box {
             border-radius: 8px;

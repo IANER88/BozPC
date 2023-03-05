@@ -1,11 +1,16 @@
 <template>
   <main id="slide-box">
-    <div class="hash-box" v-for="item of history">
+    <div class="hash-box" v-for="item of history" :key="item.id">
       <span>{{ item }}</span>
     </div>
     <div class="content-box" v-html="content[int]" v-if="boolean" />
     <div class="content-box continuous" v-else v-focus>
-      <div class="continuous-box" v-for="(item, index) of content" v-html="item" :key="index" />
+      <div
+        class="continuous-box"
+        v-for="(item, index) of content"
+        v-html="item"
+        :key="index"
+      />
     </div>
     <div class="bottom-box" :class="{ 'continuous-bottom': !boolean }">
       <div class="type">
@@ -19,36 +24,65 @@
         </div>
       </div>
       <div class="switch" v-if="boolean">
-        <div class="upper" v-html="Icon.Course.upper" @click.stop="upper()" @keyup.top="upper()" />
+        <div class="upper" v-html="Icon.Course.upper" @click.stop="upper()" />
         <div class="number">
           <span>{{ int + 1 }}</span>
           <span>/</span>
           <span>{{ content.length }}</span>
         </div>
-        <div class="nexl" v-html="Icon.Course.nexl" @click.stop="nexl()" @keyup.bottom="nexl()" />
+        <div class="next" v-html="Icon.Course.next" @click.stop="next()" />
       </div>
       <div class="fun">
         <div class="moving" v-html="Icon.Course.moving" />
-        <el-tooltip class="item" effect="dark" content="显示大纲" placement="bottom-start">
-          <div v-html="Icon.Course.outline" class="outline" @click.stop="drawer = !drawer" />
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="显示大纲"
+          placement="bottom-start"
+        >
+          <div
+            v-html="Icon.Course.outline"
+            class="outline"
+            @click.stop="drawer = !drawer"
+          />
         </el-tooltip>
       </div>
-      <el-tooltip class="item" effect="dark" content="esc关闭" placement="bottom-start">
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="esc关闭"
+        placement="bottom-start"
+      >
         <div v-html="Icon.Course.esc" class="esc" @click.stop="screen(true)" />
       </el-tooltip>
     </div>
     <transition name="nav-right">
       <nav class="nav-box" v-show="drawer">
-        <header>
-          课程大纲
-        </header>
+        <header>课程大纲</header>
         <div class="nav-main-box">
           <div class="name-box" v-for="(item, index) of catalog" :key="index">
-            <div class="title-box" @click.stop="hash(item.name)" :id="item.name">{{ item.name }}</div>
-            <div class="span-box" v-for="(hove, range) of item.title" :key="range">
-              <span @click.stop="hash(hove.name)" :id="hove.name">{{ hove.name }}</span>
+            <div
+              class="title-box"
+              @click.stop="hash(item.name)"
+              :id="item.name"
+            >
+              {{ item.name }}
+            </div>
+            <div
+              class="span-box"
+              v-for="(hove, range) of item.title"
+              :key="range"
+            >
+              <span @click.stop="hash(hove.name)" :id="hove.name">{{
+                hove.name
+              }}</span>
               <ol>
-                <li v-for="(home, each) of hove.title" :key="each" :id="home.hash" @click.stop="hash(home.hash)">
+                <li
+                  v-for="(home, each) of hove.title"
+                  :key="each"
+                  :id="home.hash"
+                  @click.stop="hash(home.hash)"
+                >
                   {{ each + 1 }}. {{ home.hash }}
                 </li>
               </ol>
@@ -60,72 +94,78 @@
   </main>
 </template>
 <script>
-import Def, { _ } from '@/assets/js/Def'
-import { Message } from 'element-ui'
-import $ from "jquery"
+import Def, { _ } from "@/assets/js/Def";
+import { Message } from "element-ui";
+import $ from "jquery";
 export default {
-  name: 'Slide',
+  name: "Slide",
   data() {
     return {
       content: [],
       int: 0,
       history: [],
-      self: '',
+      self: "",
       box: [],
       bool: true,
       catalog: [],
       boolean: true,
       drawer: false,
       fun: {},
-    }
+    };
   },
   directives: {
     focus: {
       inserted(el) {
-        el.focus()
-      }
-    }
+        el.focus();
+      },
+    },
   },
   mounted() {
-    this.screen(false)
+    this.screen(false);
     setTimeout(() => {
-      this.page(this.box)
-    }, 100)
-    this.Render()
+      this.page(this.box);
+    }, 100);
+    this.Render();
     document.addEventListener("fullscreenchange", (e) => {
       if (!document.fullscreenElement) {
-        this.fun()
-        $("main#slide-box").hide()
-        return
+        this.fun();
+        $("main#slide-box").hide();
+        return;
       }
+      document.addEventListener("click", () => {
+        if (!this.drawer) return;
+        this.drawer = false;
+      });
       document.addEventListener("keydown", (e) => {
         switch (e.code) {
           case "ArrowRight":
-            this.nexl()
-            break
+            this.next();
+            break;
           case "ArrowLeft":
-            this.upper()
-            break
+            this.upper();
+            break;
         }
-      })
-    })
+      });
+    });
   },
   watch: {
     int() {
       // 给目录添加高亮
-      const nav = $(".name-box .title-box, .name-box span, .name-box li")
+      const nav = $(".name-box .title-box, .name-box span, .name-box li");
       // 创建正则匹配 h1 to h6 的标签
-      const tag = new RegExp(`<h[1-6]>.*?</h[1-6]>`)
-      const name = this.content[this.int]
+      const tag = new RegExp(`<h[1-6]>.*?</h[1-6]>`);
+      const name = this.content[this.int];
       for (const item of nav) {
         if (tag.test(name)) {
           // 过滤掉标签
-          const title = name.replace(/<h[1-6]>/, "").replace(new RegExp("</h[1-6]>"), "")
+          const title = name
+            .replace(/<h[1-6]>/, "")
+            .replace(new RegExp("</h[1-6]>"), "");
           // 判断 id 值和 title 相等，然后添加类
           if (item.id === title) {
-            item.classList.add("active")
+            item.classList.add("active");
           } else {
-            item.classList.remove("active")
+            item.classList.remove("active");
           }
         }
       }
@@ -139,94 +179,108 @@ export default {
           active: "active",
           boolean: false,
           nav: ".name-box .title-box, .name-box span, .name-box li",
-        })
+        });
       }
-    }
+    },
   },
   methods: {
     upper() {
       if (this.int !== 0) {
-        this.int -= 1
-        this.Render()
-        return
+        this.int -= 1;
+        this.Render();
+        return;
       }
       Message({
-        message: "第一张, 无法上一张!"
-      })
+        message: "第一张, 无法上一张!",
+      });
     },
-    nexl() {
+    next() {
       if (this.int < this.content.length - 1) {
-        this.int += 1
-        this.Render()
-        return
+        this.int += 1;
+        this.Render();
+        return;
       }
       Message({
-        message: "已经是最后一张了!"
-      })
+        message: "已经是最后一张了!",
+      });
     },
     Render() {
-      this.Def.PrismAll()
+      this.Def.PrismAll();
     },
     screen(bool) {
       this.Def.Screen({
         bool,
-      })
+      });
       // 为 true 显示课程
       if (bool) {
-        $("main#slide-box").hide()
-        this.fun()
+        $("main#slide-box").hide();
+        this.fun();
       }
     },
     hash(name) {
       if (!this.boolean) {
         // 锚点定位
-        Def.toHash(`#${name}`, "#slide-box")
+        Def.toHash(`#${name}`, "#slide-box");
       } else {
         // 分页
-        this.int = this.content.findIndex(str => new RegExp(`<h[1-6]>${name}</h[1-6]>`).test(str))
+        this.int = this.content.findIndex((str) =>
+          new RegExp(`<h[1-6]>${name}</h[1-6]>`).test(str)
+        );
       }
     },
     page() {
       // 分页
-      this.boolean = true
+      this.boolean = true;
       const main = (slide) => {
-        const list = []
-        let array = $("<div></div>")
+        const list = [];
+        let array = $("<div></div>");
         for (const ts of slide) {
-          list.push(`<h1>${ts.name}</h1>`)
+          list.push(`<h1>${ts.name}</h1>`);
           if (ts.content) {
             for (const fun of $(ts.content)) {
-              const name = fun.childNodes[0].localName
+              const name = fun.childNodes[0].localName;
+              const data = fun.getAttribute("data-w-e-type");
               if (
-                ["h1", "h2", "h3", "h4", "h5", "h6", "pre"].includes(fun.localName) ||
-                fun.childNodes[0].localName == 'img'
+                [
+                  "h1",
+                  "h2",
+                  "h3",
+                  "h4",
+                  "h5",
+                  "h6",
+                  "pre",
+                  "blockquote",
+                ].includes(fun.localName) ||
+                ["option", "link-card"].includes(data) ||
+                name === "img"
               ) {
-                fun.removeAttribute("style")
-                list.push(fun.outerHTML)
-                array = ""
-                array = $("<div></div>")
+                console.log(fun, name, data);
+                fun.removeAttribute("style");
+                list.push(fun.outerHTML);
+                array = "";
+                array = $("<div></div>");
               } else if (name !== "br") {
-                array.append(fun)
-                list.push(array[0].outerHTML)
+                array.append(fun);
+                list.push(array[0].outerHTML);
               }
             }
           }
           if (ts.course) {
-            list.push(...main(ts.course))
+            list.push(...main(ts.course));
           }
         }
-        return list
-      }
-      this.content = main(this.box)
+        return list;
+      };
+      this.content = main(this.box);
     },
     continuous() {
       // 连续查看
-      this.boolean = false
-      this.content = Def.GetH(this.box)
-      this.Render()
+      this.boolean = false;
+      this.content = Def.GetH(this.box);
+      this.Render();
     },
-  }
-}
+  },
+};
 </script>
 <style lang="less">
 #slide-box {
@@ -239,7 +293,6 @@ export default {
   background: var(--tint-color);
   overflow-y: auto;
   scroll-behavior: smooth;
-
   .hash-box {
     padding: 20px;
     font-size: 20px;
@@ -261,6 +314,48 @@ export default {
     }
   }
 
+  .option {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    background: var(--option);
+    padding: 15px;
+
+    &.tip {
+      border: 1px solid #4ec58d;
+    }
+
+    &.warning {
+      border: 1px solid #ffc517;
+    }
+
+    &.error {
+      border: 1px solid #ff8b7e;
+    }
+
+    & > div {
+      margin-top: 10px;
+      line-height: 1.8;
+      min-height: calc(100% - 25px);
+
+      p {
+        height: auto;
+      }
+    }
+
+    p {
+      margin: 0 !important;
+      height: 25px;
+      span {
+        font-size: inherit !important;
+      }
+    }
+
+    & > p {
+      font-size: 17px;
+      font-weight: bold;
+    }
+  }
   .content-box {
     display: flex;
     width: 80%;
@@ -268,12 +363,7 @@ export default {
     align-items: center;
     margin: 0 auto;
     padding: 20px 0;
-
-    // .code-toolbar{
-    //   height: 100%;
-    // }
     &:not(.continuous) {
-
       h1,
       h2,
       h3,
@@ -294,7 +384,6 @@ export default {
       h3 {
         font-size: 3.5rem;
       }
-
     }
 
     &.continuous {
@@ -315,9 +404,10 @@ export default {
 
     p {
       font-size: 2rem;
+      line-height: 1.8;
     }
 
-    >div {
+    > div {
       font-size: 1.5rem;
     }
 
@@ -348,9 +438,57 @@ export default {
     // .code-toolbar {
     //   height: 100%;
     // }
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    div[data-w-e-type="link-card"] {
+      width: 100%;
+      margin: 0;
+      background: var(--card);
+      border-radius: 10px;
+      display: flex;
+      padding: 25px 20px;
+      cursor: pointer;
+      flex-direction: row-reverse;
+      gap: 15px;
+      min-height: 91px;
+      border: 1px solid var(--tint-solid);
 
-    >div,
-    >p {
+      span {
+        opacity: 0.5;
+      }
+
+      .info-container {
+        flex: 1;
+        padding-right: 20px;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+
+        p {
+          margin-top: 5px;
+          font-weight: bold;
+          line-height: normal !important;
+          margin: 0 !important;
+        }
+      }
+
+      .icon-container {
+        width: 64px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+    }
+
+    > div,
+    > p {
       width: 100%;
     }
   }
@@ -358,7 +496,7 @@ export default {
   .bottom-box {
     height: 50px;
     position: fixed;
-    background: rgba(0, 0, 0, .9);
+    background: rgba(0, 0, 0, 0.9);
     border-radius: 5px;
     bottom: 20px;
     width: 430px;
@@ -371,7 +509,7 @@ export default {
     left: 0;
     right: 0;
     opacity: 0;
-    transition: .3s;
+    transition: 0.3s;
 
     &.continuous-bottom {
       width: 310px !important;
@@ -384,7 +522,7 @@ export default {
     .type {
       gap: 5px;
 
-      >div {
+      > div {
         display: flex;
         align-items: center;
         gap: 2px;
@@ -397,20 +535,19 @@ export default {
         }
 
         &:hover {
-
           background: #484848;
         }
       }
     }
 
-    >div {
+    > div {
       display: flex;
       align-items: center;
       cursor: pointer;
       position: relative;
       padding: 0 10px;
 
-      >div {
+      > div {
         display: flex;
         align-items: center;
       }
@@ -443,7 +580,7 @@ export default {
         display: flex;
       }
 
-      .nexl {
+      .next {
         justify-content: flex-end;
       }
     }
@@ -452,20 +589,18 @@ export default {
       gap: 7px;
     }
   }
-
 }
-
 
 .nav-left-enter,
 .nav-right-leave-to {
   opacity: 0;
-  transform: translateX(400px)
+  transform: translateX(400px);
 }
 
 .nav-left-leave-to,
 .nav-right-enter {
   opacity: 0;
-  transform: translateX(400px)
+  transform: translateX(400px);
 }
 
 .nav-left-enter-active,

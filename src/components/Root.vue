@@ -26,7 +26,6 @@ export default {
   mounted() {
     const html = this._("html");
     this.show = html.className == "dark" ? "white" : "black"
-    console.log(this.show);
   },
   methods: {
     _(select) {

@@ -7,7 +7,7 @@
             <h1>{{ info.title }}</h1>
           </div>
           <div class="avatar">
-            <a :href="`/space/${info.author.id}`">
+            <a :href="`/space/${info.author.alias}`">
               <img :src="info.author.avatar" alt="" />
               <span>{{ info.author.name }}</span>
             </a>
@@ -24,9 +24,9 @@
       <div class="box">
         <div class="left">
           <div class="tag-box">
-            <span v-for="item in info.tag" :key="item.id">
+            <el-tag v-for="item in info.tag" :key="item.id">
               <a :href="`/nav/${item.title}/${item.name}`">{{ item.tag }}</a>
-            </span>
+            </el-tag>
           </div>
           <div class="title">
             <h1>{{ info.title }}</h1>
@@ -73,7 +73,12 @@
             </div>
           </div>
           <div class="time-box">
-            发布于：<time>{{ info.time }}</time>
+            <div class="tag-green" tag>
+              发布时间<span>·</span>{{ info.create_time }}
+            </div>
+            <div class="tag-cyan" tag>
+              编辑时间<span>·</span>{{ info.update_time }}
+            </div>
           </div>
         </div>
       </div>
@@ -172,7 +177,7 @@ export default {
       fun: () => {
         this.info = data;
         this.info.comments.comment = this.Def.Article.topComment(comments.comment);
-        document.title = `${this.info.title} - boz`;
+        document.title = `${this.info.title} · boz`;
       },
       def: () => {
         location.href = "/"
@@ -231,10 +236,11 @@ export default {
     render(render) {
       this.fun = render
     },
-    async Release(content) {
-      this.Def.Home.Comment({
+    async Release(content, id, ait) {
+      return this.Def.Home.Comment({
         content,
         id: this.info.id,
+        ait,
         fun: () => {
           this.switchComment(this.info.comments.time, false)
         }
@@ -297,7 +303,7 @@ export default {
     Link(item) {
       location.href = `/article/${item.author.alias}/${item.id}`
     },
-    Follower(){
+    Follower() {
       location.href = `/space/${this.info.author.alias}/fan`
     }
   },
@@ -342,7 +348,7 @@ span.time {
       display: flex;
 
       .left {
-        width: 795px;
+        width: 655px;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -350,21 +356,28 @@ span.time {
 
         .tag-box {
           display: flex;
+          gap: 10px;
+          font-size: 14px;
 
-          span {
-            background: #e6f0fd;
-            margin: 3px 5px 3px 0;
-            padding: 5px 7px;
-            border-radius: 30px;
-            display: flex;
-
-            a {
-              height: 100%;
-              text-decoration: none;
-              color: #409eff;
-              font-size: 14px;
-            }
+          a {
+            text-decoration: none;
+            color: inherit;
           }
+
+          // span {
+          //   background: #e6f0fd;
+          //   margin: 3px 5px 3px 0;
+          //   padding: 5px 7px;
+          //   border-radius: 30px;
+          //   display: flex;
+
+          //   a {
+          //     height: 100%;
+          //     text-decoration: none;
+          //     color: #409eff;
+          //     font-size: 14px;
+          //   }
+          // }
         }
 
         .click {
@@ -497,7 +510,7 @@ span.time {
       }
 
       .right {
-        width: 300px;
+        width: 445px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -525,8 +538,14 @@ span.time {
         }
 
         .time-box {
-          text-align: right;
-          font-size: 18px;
+          display: flex;
+          justify-content: right;
+          display: flex;
+          gap: 20px;
+
+          span {
+            margin: 0 5px;
+          }
         }
 
         .Reading {
@@ -541,7 +560,8 @@ span.time {
             top: 0;
           }
         }
-        .Attention{
+
+        .Attention {
           cursor: pointer;
         }
       }
@@ -568,7 +588,9 @@ span.time {
       .comments-box {
         display: flex;
         flex-direction: column;
-        margin-top: 10px;
+        margin-top: 20px;
+        border-top: 1px solid var(--tint-solid);
+        padding-top: 20px;
 
         .comments {
           margin-top: 20px;

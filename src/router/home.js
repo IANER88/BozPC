@@ -42,12 +42,10 @@ export default [
   },
   {
     path: "/nav/:type",
-    component: () => import("../components/Home/Nav/Main"),
-    children: [
-      {
-        path: ":/tag",
-        component: () => import("../components/Home/Nav/Content")
-      }
-    ]
+    component: () => import("../components/Nav/Nav"),
+  },
+  {
+    path: "/nav/:type/:tag",
+    component: () => import("../components/Nav/Nav")
   }
 ]

@@ -113,6 +113,7 @@ export default {
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid var(--tint-solid);
+
       &:hover {
         cursor: zoom-in;
       }
@@ -132,6 +133,11 @@ export default {
       .blog-cont-desc {
         width: 100%;
         height: 60%;
+
+        @-moz-document url-prefix() {
+          height: 50%;
+        }
+
         -webkit-line-clamp: 3;
       }
 

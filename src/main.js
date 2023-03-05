@@ -18,10 +18,7 @@ Vue.prototype.xss = xss
 import axios from "axios"
 NProgress.configure({ showSpinner: false });
 axios.interceptors.request.use(config => {
-  //当进入request拦截器，表示发送了请求，我们就开启进度条
   NProgress.start()
-  // config.headers.Authorization = window.sessionStorage.getItem("token")
-  //必须返回config
   return config
 })
 //在response拦截器中，隐藏进度条
