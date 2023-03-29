@@ -12,9 +12,14 @@
               <span>{{ info.author.name }}</span>
             </a>
             <div class="button">
-              <button :class="info.attention.boolean ? 'but-active' : 'but'" @click="Attention({
-                follower_id: info.author.id
-              })" />
+              <button
+                :class="info.attention.boolean ? 'but-active' : 'but'"
+                @click="
+                  Attention({
+                    follower_id: info.author.id,
+                  })
+                "
+              />
             </div>
           </div>
         </div>
@@ -33,11 +38,20 @@
           </div>
           <div class="click">
             <div class="button">
-              <button :class="info.attention.boolean ? 'first-active' : 'first'"
-                v-if="info.author.id !== $store.state.info.id" @click="Attention({
-                  follower_id: info.author.id
-                })" />
-              <button class="last" @click="Compile()" v-if="info.author.id === $store.state.info.id">
+              <button
+                :class="info.attention.boolean ? 'first-active' : 'first'"
+                v-if="info.author.id !== $store.state.info.id"
+                @click="
+                  Attention({
+                    follower_id: info.author.id,
+                  })
+                "
+              />
+              <button
+                class="last"
+                @click="Compile()"
+                v-if="info.author.id === $store.state.info.id"
+              >
                 <i v-html="Icon.Article.one" />
                 编辑
               </button>
@@ -47,7 +61,10 @@
               </button>
             </div>
             <div class="span">
-              <span :class="{ active: info.like.author }" @click="LikeArticle(info.id)">
+              <span
+                :class="{ active: info.like.author }"
+                @click="LikeArticle(info.id)"
+              >
                 <i v-html="Icon.Article.two" />
                 {{ info.like.count === 0 ? "点赞" : info.like.count }}
               </span>
@@ -93,18 +110,39 @@
               <div class="title">
                 <span>全部评论</span>
                 <span>{{ info.comments.count }}</span>
-                <span @click="switchComment(2)" :class="{ active: info.comments.time === 2 }">只看作者</span>
+                <span
+                  @click="switchComment(2)"
+                  :class="{ active: info.comments.time === 2 }"
+                  >只看作者</span
+                >
               </div>
               <div class="filter">
-                <span :class="{ time: info.comments.time === 1 }" @click="switchComment(1)">按时间倒序</span>
-                <span :class="{ time: info.comments.time === 3 }" @click="switchComment(3)">按时间正序</span>
+                <span
+                  :class="{ time: info.comments.time === 1 }"
+                  @click="switchComment(1)"
+                  >按时间倒序</span
+                >
+                <span
+                  :class="{ time: info.comments.time === 3 }"
+                  @click="switchComment(3)"
+                  >按时间正序</span
+                >
               </div>
             </div>
             <div class="box">
               <el-skeleton :rows="6" animated v-if="rows" :throttle="500" />
-              <Comment v-for="item of info.comments.comment" :key="item.id" :item="item" :info="info"
-                :subscript="subscript" @preform="preform" :preform="preform" :switchComment="switchComment"
-                :time="info.comments.time" />
+              <Comment
+                v-for="item of info.comments.comment"
+                :key="item.id"
+                :item="item"
+                :info="info"
+                :subscript="subscript"
+                @preform="preform"
+                :preform="preform"
+                :switchComment="switchComment"
+                :time="info.comments.time"
+              />
+              <el-empty v-if="!info.comments.count" />
             </div>
           </div>
         </div>
@@ -121,8 +159,8 @@ import Nav from "../Home/Nav";
 import Release from "./Release";
 import Comment from "./Comment";
 import Share from "./Parts/Share";
-import toTOP from "@/components/toTop"
-import "@/assets/css/prism.css"
+import toTOP from "@/components/toTop";
+import "@/assets/css/prism.css";
 import "@/assets/css/Articles.less";
 import Catalog from "../func/Catalog";
 import Other from "./Parts/Other.vue";
@@ -133,7 +171,7 @@ export default {
       info: {
         like: {
           count: "",
-          name: {}
+          name: {},
         },
         catalog: [],
         answer: "",
@@ -142,16 +180,16 @@ export default {
         attention: {
           id: "",
           name: "",
-          boolean: ""
+          boolean: "",
         },
         author: {
           id: "",
           avatar: "",
-          name: ""
+          name: "",
         },
         comments: {
-          comment: []
-        }
+          comment: [],
+        },
       },
       fun: "",
       show: false,
@@ -161,7 +199,7 @@ export default {
       subscript: "",
       rows: false,
       fetch: true,
-      fun: ""
+      fun: "",
     };
   },
   components: { Nav, Release, Comment, Share, toTOP, Catalog, Other },
@@ -171,28 +209,34 @@ export default {
       name,
       id,
     });
-    const { comments } = data
+    const { comments } = data;
     this.Def.Home.Message({
       res: data,
       fun: () => {
         this.info = data;
-        this.info.comments.comment = this.Def.Article.topComment(comments.comment);
+        this.info.comments.comment = this.Def.Article.topComment(
+          comments.comment
+        );
         document.title = `${this.info.title} · boz`;
       },
       def: () => {
-        location.href = "/"
-      }
-    })
+        location.href = "/";
+      },
+    });
     this.Def.PrismAll()
-      .LastpDom({ select: ".article > .code-toolbar", boolean: false, bool: false })
-      .Enlarge(".article")
+      .LastpDom({
+        select: ".article > .code-toolbar",
+        boolean: false,
+        bool: false,
+      })
+      .Enlarge(".article");
     this.Def.scrollSpy({
       main: ".article",
       active: "active",
       bool: false,
       boolean: false,
       nav: ".catalog-box span, .catalog-box li",
-    })
+    });
     window.addEventListener("scroll", () => {
       const scoll = document.documentElement.scrollTop;
       if (scoll > 163) {
@@ -202,39 +246,39 @@ export default {
         this.hide = false;
         this.show = false;
       }
-    })
+    });
   },
   filters: {
     unit(val) {
       if (val === undefined) return;
       const numberArray = (val) => {
-        const nun = String(val).split('')
+        const nun = String(val).split("");
         /*
           长度大过 4 往前推移 1 位 保留一位小数
           即 1000 -> 1K to 10000 -> 10K to 10001 -> 1.1w
         */
         const tuiyi = ({ val, num = 2, unit = "k" }) => {
-          const str = str => str.toString().replaceAll(',', "")
-          const to = val.slice(0, val.length - num)
-          const len = to.length - 1
-          const first = str(to.slice(0, len))
-          const last = str(to.slice(len, to.length))
-          return `${first}.${last}${unit}`
-        }
+          const str = (str) => str.toString().replaceAll(",", "");
+          const to = val.slice(0, val.length - num);
+          const len = to.length - 1;
+          const first = str(to.slice(0, len));
+          const last = str(to.slice(len, to.length));
+          return `${first}.${last}${unit}`;
+        };
         if (nun.length == 4) {
-          return tuiyi({ val: nun })
+          return tuiyi({ val: nun });
         } else if (nun.length >= 5) {
-          return tuiyi({ val: nun, num: 3, unit: "w" })
+          return tuiyi({ val: nun, num: 3, unit: "w" });
         } else {
-          return val
+          return val;
         }
-      }
-      return numberArray(val)
-    }
+      };
+      return numberArray(val);
+    },
   },
   methods: {
     render(render) {
-      this.fun = render
+      this.fun = render;
     },
     async Release(content, id, ait) {
       return this.Def.Home.Comment({
@@ -242,46 +286,49 @@ export default {
         id: this.info.id,
         ait,
         fun: () => {
-          this.switchComment(this.info.comments.time, false)
-        }
-      })
+          this.switchComment(this.info.comments.time, false);
+        },
+      });
     },
     async LikeArticle(id) {
       this.Def.Home.Like({
         id,
         type: "article_id",
         like: this.info.like,
-      })
+      });
     },
     async switchComment(type, bool = true) {
       if (bool) {
-        this.rows = true
+        this.rows = true;
         this.info.comments.comment = [];
       }
-      const { data: { comment, time, count } } = await this.Fetch.Home.Comment({
+      const {
+        data: { comment, time, count },
+      } = await this.Fetch.Home.Comment({
         article: this.info.id,
-        type
+        type,
       });
       const func = () => {
         this.rows = false;
         this.info.comments.time = time;
-        this.info.comments.count = count
+        this.info.comments.count = count;
         this.info.comments.comment = this.Def.Article.topComment(comment);
-      }
-      bool ? setTimeout(func, 1000) : setTimeout(func, 500)
+      };
+      bool ? setTimeout(func, 1000) : setTimeout(func, 500);
     },
     Compile() {
       window.location = `/release/update?id=${this.info.id}`;
     },
     Direct() {
-      this.Def.Decorator(
-        this.Def.Home.Direct,
-        {
-          obj: this.info.author
-        }
-      )
+      this.Def.Decorator(this.Def.Home.Direct, {
+        obj: this.info.author,
+      });
     },
     preform(index) {
+      if (!this.$store.state.info.id) {
+        location.href = "/login";
+        return;
+      }
       this.subscript = index;
     },
     Attention({ follower_id }) {
@@ -292,20 +339,20 @@ export default {
             follower_id,
           },
           fun: () => {
-            this.fun()
-            this.info.attention.boolean = !boolean
-          }
-        })
-      }
-      const boolean = this.info.attention.boolean
-      boolean ? Attention("delete") : Attention("post")
+            this.fun();
+            this.info.attention.boolean = !boolean;
+          },
+        });
+      };
+      const boolean = this.info.attention.boolean;
+      boolean ? Attention("delete") : Attention("post");
     },
     Link(item) {
-      location.href = `/article/${item.author.alias}/${item.id}`
+      location.href = `/article/${item.author.alias}/${item.id}`;
     },
     Follower() {
-      location.href = `/space/${this.info.author.alias}/fan`
-    }
+      location.href = `/space/${this.info.author.alias}/fan`;
+    },
   },
 };
 </script>
@@ -341,7 +388,7 @@ span.time {
     padding: 15px 0;
 
     .box {
-      max-width: 1100px;
+      width: 72.5%;
       height: 100%;
       margin: 0 auto;
       justify-content: center;
@@ -416,7 +463,7 @@ span.time {
               border: none;
               background: #8590a6;
               color: #fff;
-              transition: all .2s;
+              transition: all 0.2s;
 
               &::before {
                 content: "已关注";
@@ -427,7 +474,6 @@ span.time {
                   content: "取消关注";
                 }
               }
-
             }
 
             .last {
@@ -663,6 +709,9 @@ span.time {
             display: flex;
             flex-direction: column;
             margin-top: 35px;
+            /deep/.el-empty {
+              padding-bottom: 0 !important;
+            }
           }
         }
       }
@@ -674,7 +723,7 @@ span.time {
     margin: 0 auto;
     height: 100%;
     justify-content: space-between;
-    transition: all .1s;
+    transition: all 0.1s;
     position: relative;
     top: 15px;
     display: flex;
@@ -749,6 +798,5 @@ span.time {
     line-height: 0 !important;
     margin: 0;
   }
-
 }
 </style>

@@ -11,6 +11,38 @@
 
 html {
   scroll-behavior: smooth;
+
+  body {
+    font-family: initial;
+    background: var(--tint-color);
+    color: var(--color);
+
+    /*将页面前进或后退两种不同效果的动画都写下来*/
+    .slide-left-enter,
+    .slide-right-leave-to {
+      opacity: 0;
+      transform: translateX(500%)
+    }
+
+    .slide-left-leave-to,
+    .slide-right-enter {
+      opacity: 0;
+      transform: translateX(-800%)
+    }
+
+    .slide-left-enter-active,
+    .slide-left-leave-active,
+    .slide-right-enter-active,
+    .slide-right-leave-active {
+      transition: 1s ease;
+      position: absolute;
+    }
+  }
+}
+
+@font-face {
+  font-family: JetBrains;
+  src: url("../font/JetBrainsMono-Bold.ttf");
 }
 
 .el-popper {
@@ -113,36 +145,41 @@ main.course-content-box,
   color: unset;
 }
 
-.w-e-text-container [data-slate-editor] pre>code {
-  font-family: "JetBrains Mono" !important;
-  color: #fff;
-}
+.w-e-text-container [data-slate-editor] {
+  pre>code {
+    font-family: "JetBrains Mono" !important;
+    color: #fff;
+  }
 
-.w-e-text-container [data-slate-editor] blockquote {
-  background-color: var(--blockquote) !important
-}
+  blockquote {
+    background-color: var(--blockquote) !important
+  }
 
-#nprogress .bar {
-  background: var(--main-color) !important; //自定义颜色
-}
+  #nprogress .bar {
+    background: var(--main-color) !important; //自定义颜色
+  }
 
-.w-e-textarea-link-card-container {
+  .w-e-textarea-link-card-container {
 
-  width: 100% !important;
-  margin: 0 !important;
-  background: #ebf0f3 !important;
-  flex-direction: row-reverse;
-  gap: 15px;
-  min-height: 91px;
-  border: 1px solid var(--tint-solid);
+    width: 100% !important;
+    margin: 0 !important;
+    background: #ebf0f3 !important;
+    flex-direction: row-reverse;
+    gap: 15px;
+    min-height: 91px;
+    border: 1px solid var(--tint-solid);
 
-  .w-e-textarea-link-card-icon-container {
-    width: 78px !important;
-    height: 78px !important;
-    border-radius: 5px;
-    overflow: hidden;
+    .w-e-textarea-link-card-icon-container {
+      width: 78px !important;
+      height: 78px !important;
+      border-radius: 5px;
+      overflow: hidden;
+    }
   }
 }
+
+
+
 
 .el-tag {
   background-color: var(--el-tag-blue);
@@ -254,31 +291,6 @@ main.course-content-box,
   z-index: 10001 !important;
 }
 
-body {
-  background: var(--tint-color);
-  color: var(--color);
-
-  /*将页面前进或后退两种不同效果的动画都写下来*/
-  .slide-left-enter,
-  .slide-right-leave-to {
-    opacity: 0;
-    transform: translateX(500%)
-  }
-
-  .slide-left-leave-to,
-  .slide-right-enter {
-    opacity: 0;
-    transform: translateX(-800%)
-  }
-
-  .slide-left-enter-active,
-  .slide-left-leave-active,
-  .slide-right-enter-active,
-  .slide-right-leave-active {
-    transition: 1s ease;
-    position: absolute;
-  }
-}
 
 .el-dialog__wrapper {
 

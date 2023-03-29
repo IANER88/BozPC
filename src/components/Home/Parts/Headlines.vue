@@ -41,21 +41,21 @@ export default {
     },
   },
 };
-</script>
+</script> 
 <style scoped lang="less">
 .content-center-box {
-  width: calc(100% - 547px);
+  width: 64.5%;
   height: 100%;
   display: flex;
 
   .headlines-main-box {
     display: flex;
-    width: calc(273px * 2);
+    width: 64.8%;
     justify-content: space-between;
     height: 100%;
 
     .headlines-box {
-      width: 273px;
+      width: 100%;
       padding: 0 25px;
       display: flex;
       flex-direction: column;
@@ -105,7 +105,7 @@ export default {
   }
 
   .advertising-box {
-    width: 100%;
+    width: calc(100% - 64.8%);
     display: flex;
     flex-direction: column;
     border: solid 1px var(--tint-solid);

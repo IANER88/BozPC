@@ -124,7 +124,7 @@ export default {
     height: 530px;
 
     .content-main-box {
-      width: 1380px;
+      width: calc(100% - 139px);
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -132,7 +132,7 @@ export default {
   }
 
   .whole-box {
-    width: 1380px;
+    width: calc(100% - 139px);
     margin: 0 auto;
     padding-bottom: 40px;
 

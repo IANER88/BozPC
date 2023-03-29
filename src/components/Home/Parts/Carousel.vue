@@ -2,7 +2,11 @@
   <div class="carousel-box">
     <el-carousel>
       <el-carousel-item v-for="(item, index) in carousel" :key="index">
-        <img :src="item.img" alt="" />
+        <el-image :src="item.img">
+          <div slot="error" class="image-slot">
+            <i class="el-icon-picture-outline"></i>
+          </div>
+        </el-image>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -25,14 +29,14 @@ export default {
 </script>
 <style scoped lang="less">
 .carousel-box {
-  width: 547px;
+  width: 40.52%;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
   overflow: hidden;
 
   /deep/.el-carousel__item {
-    img {
+    .el-image {
       width: 100%;
       height: 100%;
     }
@@ -60,7 +64,8 @@ export default {
     justify-content: space-between;
     padding: 10px;
 
-    .main-content {}
+    .main-content {
+    }
 
     .main-indicator {
       width: 68px;

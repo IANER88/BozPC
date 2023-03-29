@@ -174,7 +174,7 @@
             </div>
           </transition>
         </div>
-        <div class="box">
+        <div class="create-box">
           <ul>
             <li v-if="!$store.state.info.name">
               <a href="/login">登录/注册</a>
@@ -456,7 +456,6 @@ export default {
   box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
   padding: 10px 30px;
   box-sizing: border-box;
-  align-items: center;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -470,7 +469,7 @@ export default {
   }
 
   .info {
-    width: 478px;
+    width: 32.8%;
     display: flex;
     gap: 15px;
   }
@@ -485,7 +484,7 @@ export default {
   }
 
   .nav {
-    width: 400px;
+    width: 74%;
     display: flex;
     align-items: center;
     flex-direction: row-reverse;
@@ -516,7 +515,7 @@ export default {
   }
 
   .search {
-    width: 500px;
+    width: 34.25%;
     padding: 0 30px;
     position: relative;
 
@@ -928,20 +927,20 @@ export default {
 
   .noLogin {
     ul {
-      width: 77% !important;
+      width: 78% !important;
     }
 
-    .box {
+    .create-box {
       width: 100% !important;
     }
   }
 
   .create {
-    width: 478px;
+    width: 32.8%;
     display: flex;
     justify-content: space-between;
 
-    .box {
+    .create-box {
       width: 86%;
       display: flex;
       padding: 4px 0px;

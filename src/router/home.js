@@ -40,12 +40,12 @@ export default [
     path: "/article/:name/:id",
     component: () => import("../components/Home/Article")
   },
-  {
-    path: "/nav/:type",
-    component: () => import("../components/Nav/Nav"),
-  },
-  {
-    path: "/nav/:type/:tag",
-    component: () => import("../components/Nav/Nav")
-  }
+  // {
+  //   path: "/nav/:type",
+  //   component: () => import("../components/Nav/Nav"),
+  // },
+  // {
+  //   path: "/nav/:type/:tag",
+  //   component: () => import("../components/Nav/Nav")
+  // }
 ]
