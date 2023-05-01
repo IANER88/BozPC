@@ -6,7 +6,11 @@
         <i v-html="Icon.Space.switch" />
       </div>
       <el-dropdown-menu>
-        <el-dropdown-item v-for="item of init.box" :key="item.id" @click.native="SWITCH(item)">
+        <el-dropdown-item
+          v-for="item of init.box"
+          :key="item.id"
+          @click.native="SWITCH(item)"
+        >
           {{ item.name }}
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -14,9 +18,9 @@
   </Live>
 </template>
 <script>
-import Live from './Live.vue';
+import Live from "./Live.vue";
 export default {
-  name: 'Aritcle',
+  name: "Aritcle",
   data() {
     return {
       init: {
@@ -25,39 +29,43 @@ export default {
         box: [
           {
             id: 1,
-            name: "按时间正序"
+            name: "按时间正序",
           },
           {
             id: 2,
-            name: "按时间降序"
+            name: "按时间降序",
           },
           {
             id: 3,
-            name: "点赞数排序"
-          }
-        ]
+            name: "点赞数排序",
+          },
+        ],
       },
-      info: {}
-    }
+      info: {},
+    };
   },
   components: { Live },
   mounted() {
-    this.mount(this.init.index)
+    this.mount(this.init.index);
   },
   methods: {
     SWITCH(item) {
-      this.init.name = item.name
-      this.init.index = item.id
-      this.mount(item.id)
+      this.init.name = item.name;
+      this.init.index = item.id;
+      this.mount(item.id);
     },
     async mount(id) {
-      const { data } = await this.Fetch.Home.Article({
-        method: "post",
-        name: this.$route.params.name,
-        id,
-      })
-      this.info = data.info
-    }
-  }
-}
+      try {
+        const { data } = await this.Fetch.Home.Article({
+          method: "post",
+          name: this.$route.params.name,
+          id,
+        });
+        this.info = data.info;
+      } catch {
+        location.href = "/404";
+      }
+    },
+  },
+};
 </script>

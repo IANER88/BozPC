@@ -6,23 +6,44 @@
     <div class="main-box">
       <div class="content">
         <div class="left">
-          <img src="~@/assets/img/placeholder-img.4a8e3629.png" alt="" />
+          <el-image :src="require('../assets/img/placeholder-img.4a8e3629.png')">
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"/>
+            </div>
+          </el-image>
         </div>
-        <Login v-show="show == 'Login'" @hide="hide" title="欢迎回来" :hide="true" show_="Login" name="登录" />
+        <Login
+          v-show="show == 'Login'"
+          @hide="hide"
+          title="欢迎回来"
+          :hide="true"
+          show_="Login"
+          name="登录"
+        />
         <div class="right password" v-show="show == 'Password'">
           <div>
             <i v-html="Icon.Login.password" @click="show = 'Login'" />
             <h3>密码登录</h3>
           </div>
           <div>
-            <input type="text" placeholder="邮箱" @keydown.enter="Login()" v-model.trim="email"
-              :class="{ alert: Warning.email }" />
+            <input
+              type="text"
+              placeholder="邮箱"
+              @keydown.enter="Login()"
+              v-model.trim="email"
+              :class="{ alert: Warning.email }"
+            />
             <span v-if="Warning.email">
               <i v-html="Icon.Login.email" />
               请输入正确邮箱账号
             </span>
-            <input type="password" placeholder="密码" @keydown.enter="Login()" v-model.trim="password"
-              :class="{ alert: Warning.password }" />
+            <input
+              type="password"
+              placeholder="密码"
+              @keydown.enter="Login()"
+              v-model.trim="password"
+              :class="{ alert: Warning.password }"
+            />
             <span v-if="Warning.password">
               <i v-html="Icon.Login.email" />
               请输入正确密码
@@ -31,7 +52,13 @@
           <button @click="Login()">登录</button>
           <div><span>忘记密码</span></div>
         </div>
-        <Login v-show="show == 'Register'" @hide="hide" title="注册账号" show_="Register" name="注册" />
+        <Login
+          v-show="show == 'Register'"
+          @hide="hide"
+          title="注册账号"
+          show_="Register"
+          name="注册"
+        />
       </div>
     </div>
   </div>
@@ -76,14 +103,14 @@ export default {
           data: {
             email: this.email,
             password: this.password,
-          }
+          },
         });
         this.Def.Home.Message({
           res: res.data,
           fun: () => {
-            location.href = "/"
-          }
-        })
+            location.href = "/";
+          },
+        });
       }
     },
   },
@@ -184,7 +211,7 @@ export default {
       padding: 2.7rem 0;
       .vertical();
 
-      >div {
+      > div {
         display: flex;
         margin-bottom: 10px;
 
@@ -197,7 +224,7 @@ export default {
           margin-left: 7px;
         }
 
-        +div {
+        + div {
           .vertical();
 
           input {
@@ -216,7 +243,7 @@ export default {
         color: #fff;
         .button();
 
-        +div {
+        + div {
           width: 100%;
           margin-top: 20px;
           text-align: center;

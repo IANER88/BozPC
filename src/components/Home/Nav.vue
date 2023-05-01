@@ -16,13 +16,12 @@
           </ul>
         </div>
       </div>
-      <div class="search" v-if="boolean">
+      <div class="search" v-if="boolean" ref="search">
         <div :class="{ form: true, focus: focus }">
           <input
             type="text"
             placeholder="输入想搜的..."
             @focus="Focus()"
-            @blur="blur && Blur()"
             v-model="searchBox.search"
             @keyup.enter="Search(searchBox.search)"
           />
@@ -61,11 +60,13 @@
                   v-for="(item, index) of TopSerch"
                   :key="index"
                 >
-                  <div class="topic" v-for="haver of item" :key="haver.id">
-                    <div
-                      class="topic-main-box"
-                      @click.stop="Search(haver.topic)"
-                    >
+                  <div
+                    class="topic"
+                    v-for="haver of item"
+                    :key="haver.id"
+                    @click="Search(haver.topic)"
+                  >
+                    <div class="topic-main-box">
                       <i :class="`item-${haver.int}`">{{ haver.int }}</i>
                       <p>{{ haver.topic }}</p>
                     </div>
@@ -345,6 +346,11 @@ export default {
   },
   async mounted() {
     const search = await this.Fetch.Home.Search({ method: "put" });
+    window.addEventListener("click", (e) => {
+      if (!this.$refs.search.contains(e.target)) {
+        this.focus = false;
+      }
+    });
     this.TopSerch = search.data.search;
     setTimeout(async () => {
       if (this.$store.state.info.name) {
@@ -400,6 +406,7 @@ export default {
     },
     Blur() {
       this.focus = false;
+      this.$refs["input"].blur();
     },
     Search(text) {
       location.href = `/search?q=${text}`;
@@ -515,8 +522,8 @@ export default {
   }
 
   .search {
-    width: 34.25%;
-    padding: 0 30px;
+    width: 30.25%;
+    margin: 0 30px;
     position: relative;
 
     .form {
@@ -568,7 +575,6 @@ export default {
     }
 
     .search-panel {
-      width: 88%;
       max-height: 612px;
       background: var(--tint-color);
       position: absolute;
@@ -578,7 +584,10 @@ export default {
       flex-direction: column;
       display: none;
       padding: 13px 16px;
-
+      box-shadow: 0 25px 30px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      left: 0;
+      right: 0;
       &.active {
         display: none;
       }

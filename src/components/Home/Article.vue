@@ -393,7 +393,7 @@ span.time {
       margin: 0 auto;
       justify-content: center;
       display: flex;
-
+      justify-content: space-between;
       .left {
         width: 655px;
         height: 100%;
@@ -615,7 +615,7 @@ span.time {
   }
 
   .article-box {
-    max-width: 1100px;
+    max-width: 72.5%;
     margin: 30px auto;
     display: flex;
     justify-content: space-between;

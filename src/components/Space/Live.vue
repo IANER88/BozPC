@@ -5,8 +5,14 @@
       <slot />
     </header>
     <div class="article-main-box">
-      <el-timeline>
-        <el-timeline-item v-for="item of info" :key="item.id" :timestamp="item.time" placement="top">
+      <el-empty description="未发表文章" v-if="info.length === 0" />
+      <el-timeline v-else>
+        <el-timeline-item
+          v-for="item of info"
+          :key="item.id"
+          :timestamp="item.time"
+          placement="top"
+        >
           <Article :item="item" :mount="mount" />
         </el-timeline-item>
       </el-timeline>
@@ -14,18 +20,18 @@
   </main>
 </template>
 <script>
-import Article from '../Home/Parts/Article';
+import Article from "../Home/Parts/Article";
 export default {
   name: "Live",
   props: {
     title: {
-      default: "文章"
+      default: "文章",
     },
     info: {},
-    mount: {}
+    mount: {},
   },
   components: { Article },
-}
+};
 </script>
 <style scoped lang="less">
 #article-box {

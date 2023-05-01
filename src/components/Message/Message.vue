@@ -3,7 +3,12 @@
     <Nav />
     <main id="message-box">
       <nav>
-        <router-link v-for="(item, index) of link" :key="index" :to="item.to" active-class="active">
+        <router-link
+          v-for="(item, index) of link"
+          :key="index"
+          :to="item.to"
+          active-class="actives"
+        >
           {{ item.name }}
         </router-link>
       </nav>
@@ -22,45 +27,42 @@ export default {
       link: [
         {
           name: "回复我的",
-          to: "/message/reply"
+          to: "/message/reply",
         },
         {
           name: "@我的",
-          to: "/message/ait"
+          to: "/message/ait",
         },
         {
           name: "收到的赞",
-          to: "/message/like"
+          to: "/message/like",
         },
         {
           name: "系统消息",
-          to: "/message/system"
+          to: "/message/system",
         },
         {
           name: "我的消息",
-          to: "/message/mymessage"
+          to: "/message/mymessage",
         },
       ],
-      transition: "slide-right"
+      transition: "slide-right",
     };
   },
   components: { Nav },
 };
 </script>
-<style>
-body {
+<style scoped lang="less">
+#message {
   background: var(--article-backgrund);
   overflow: hidden;
 }
-</style>
-<style scoped lang="less">
 #message-box {
   min-height: 100vh;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-
-  >main {
+  > main {
     width: calc(99% - 200px);
     margin: 20px 20px 20px 220px;
     display: flex;
@@ -116,7 +118,6 @@ body {
         }
 
         &:hover {
-
           .delete {
             display: flex !important;
           }

@@ -5,17 +5,29 @@
       <div class="v-popover" v-show="show">
         <main class="main-box">
           <nav>
-            <div :class="{ item: true, active: index === item.id }" v-for="item of info" :key="item.id"
-              @click="Ematy(item.id)">
-              {{ item.name }}
+            <div
+              :class="{ item: true, active: index === item.id }"
+              v-for="item of info"
+              :key="item.id"
+              @click="Ematy(item.id)"
+            >
+              <span>{{ item.name }}</span>
+              <em>{{ item.count }}</em>
             </div>
           </nav>
           <main>
-            <a :class="{ 'header-fav': true, image: !item.image }" v-for="item of content" :key="item.id" @click="Link({
-              id: item.id,
-              title: item.title,
-              author: item.author,
-            })">
+            <a
+              :class="{ 'header-fav': true, image: !item.image }"
+              v-for="item of content"
+              :key="item.id"
+              @click="
+                Link({
+                  id: item.id,
+                  title: item.title,
+                  author: item.author,
+                })
+              "
+            >
               <img :src="item.image" alt="" v-if="item.image" />
               <span class="tag-box" v-else>{{ item.type }}</span>
               <div class="title">
@@ -23,7 +35,7 @@
                 <span>{{ item.author.name }}</span>
               </div>
             </a>
-            <el-empty description="收藏夹为空" v-if="(content.length === 0)" />
+            <el-empty description="收藏夹为空" v-if="content.length === 0" />
           </main>
         </main>
       </div>
@@ -38,22 +50,29 @@ export default {
       index: 0,
       show: false,
       info: [],
-      content: [{
-        title: "",
-        image: "",
-        author: {
-          name: "",
-          id: ""
-        }
-      }]
+      content: [
+        {
+          title: "",
+          image: "",
+          author: {
+            name: "",
+            id: "",
+          },
+        },
+      ],
     };
   },
   async mounted() {
     if (this.$store.state.info.name) {
-      const { data: { list } } = await this.Fetch.Home.Collect({ alias: this.$store.state.info.alias })
-      this.info = list
-      this.index = list[0].id
-      this.Ematy(this.index)
+      const {
+        data: { list },
+      } = await this.Fetch.Home.Collect({
+        alias: this.$store.state.info.alias,
+      });
+      this.info = list;
+      console.log(this.info);
+      this.index = list[0].id;
+      this.Ematy(this.index);
       this.Def.Home.Hover({
         dom: "li.collect",
         enter: () => {
@@ -61,23 +80,25 @@ export default {
         },
         leave: () => {
           this.show = false;
-        }
-      })
+        },
+      });
     }
   },
   methods: {
     async Ematy(index) {
       this.index = index;
-      const { data: { content } } = await this.Fetch.Home.Collect({
+      const {
+        data: { content },
+      } = await this.Fetch.Home.Collect({
         id: index,
         alias: this.$store.state.info.alias,
-        method: "patch"
-      })
-      this.content = content
+        method: "patch",
+      });
+      this.content = content;
     },
     Link({ author, id }) {
-      window.location = `/article/${author.alias}/${id}`
-    }
+      window.location = `/article/${author.alias}/${id}`;
+    },
   },
 };
 </script>
@@ -118,11 +139,19 @@ export default {
       display: flex;
       align-items: center;
       cursor: pointer;
-      transition: .2s;
-
+      transition: 0.2s;
+      justify-content: space-between;
+      em {
+        font-style: normal;
+        font-size: 13px;
+        color: var(--headlines-color);
+      }
       &.active {
         background: var(--main-color);
         color: #fff;
+        em{
+          color: #fff;
+        }
       }
     }
   }
@@ -131,7 +160,7 @@ export default {
     width: calc(100% - 150px);
     height: 100%;
     overflow-y: auto;
-    transition: .2s;
+    transition: 0.2s;
 
     &::-webkit-scrollbar {
       /*高宽分别对应横竖滚动条的尺寸*/

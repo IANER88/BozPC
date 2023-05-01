@@ -1,23 +1,49 @@
 <template>
   <main id="collect-box">
     <nav>
-      <div class="link-box" @click="Link(item.id)" v-for="item of nav" :key="item.id"
-        :class="{active: item.id == $route.query.id}">
+      <div
+        class="link-box"
+        @click="Link(item.id)"
+        v-for="item of nav"
+        :key="item.id"
+        :class="{ active: item.id == $route.query.id }"
+      >
         <div class="nav-content-box">
           <span>{{ item.name }}</span>
-          <i class="el-icon-plus" v-if="Live(item.name) && isLogin" @click="add()" />
-          <el-dropdown class="right" trigger="click" v-if="!Live(item.name) && isLogin">
+          <i
+            class="el-icon-plus"
+            v-if="Live(item.name) && isLogin"
+            @click="add()"
+          />
+          <el-dropdown
+            class="right"
+            trigger="click"
+            v-if="!Live(item.name) && isLogin"
+          >
             <i class="el-icon-more" />
             <el-dropdown-menu>
-              <el-dropdown-item v-if="!Live(item.name) && isLogin" @click.native="editor(item)">编辑</el-dropdown-item>
-              <el-dropdown-item v-if="!Live(item.name) && isLogin" @click.native="remove(item.id)">删除</el-dropdown-item>
+              <el-dropdown-item
+                v-if="!Live(item.name) && isLogin"
+                @click.native="editor(item)"
+                >编辑</el-dropdown-item
+              >
+              <el-dropdown-item
+                v-if="!Live(item.name) && isLogin"
+                @click.native="remove(item.id)"
+                >删除</el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
         </div>
         <span>{{ item.count }} 条内容</span>
       </div>
     </nav>
-    <div class="collect-main-box">
+    <el-empty
+      class="collect-empty"
+      description="收藏夹为空"
+      v-if="content.length === 0"
+    />
+    <div class="collect-main-box" v-else>
       <div class="collect-content-box">
         <div class="title-box">文章标题</div>
         <div class="author-box">作者</div>
@@ -31,16 +57,27 @@
         <div class="author-box" @click="LinkAuthor(item)">
           {{ item.author.name }}
         </div>
-        <div class="collect-icon-box" v-html="Icon.Like.collect2" @click="collect(item)" />
+        <div
+          class="collect-icon-box"
+          v-html="Icon.Like.collect2"
+          @click="collect(item)"
+        />
       </div>
     </div>
-    <Add :title="title" @close="close" v-if="boolean" :name="name" :id="id" :visible="state" />
+    <Add
+      :title="title"
+      @close="close"
+      v-if="boolean"
+      :name="name"
+      :id="id"
+      :visible="state"
+    />
   </main>
 </template>
 <script>
-import Add from "./Add"
+import Add from "./Add";
 export default {
-  name: 'Collect',
+  name: "Collect",
   data() {
     return {
       nav: [],
@@ -49,100 +86,102 @@ export default {
       boolean: false,
       name: "",
       id: "",
-      state: ""
-    }
+      state: "",
+    };
   },
   components: { Add },
   async mounted() {
-    this.Get()
+    this.Get();
   },
   computed: {
     isLogin() {
-      return this.$store.state.info.alias == this.$route.params.name
-    }
+      return this.$store.state.info.alias == this.$route.params.name;
+    },
   },
   methods: {
     async Link(id) {
       this.$router.push({
         path: this.$route.path,
         query: {
-          id
-        }
-      })
+          id,
+        },
+      });
       const { data } = await this.Fetch.Home.Collect({
         method: "patch",
         alias: this.$route.params.name,
-        id
-      })
-      this.content = data.content
+        id,
+      });
+      this.content = data.content;
     },
     Live(value) {
-      return value === "默认收藏夹"
+      return value === "默认收藏夹";
     },
     LinkArticle(item) {
-      location.href = `/article/${item.author.alias}/${item.id}`
+      location.href = `/article/${item.author.alias}/${item.id}`;
     },
     LinkAuthor(item) {
-      location.href = `/space/${item.author.alias}`
+      location.href = `/space/${item.author.alias}`;
     },
     add() {
-      this.boolean = true
+      this.boolean = true;
     },
     editor(item) {
-      this.title = "编辑收藏夹"
-      this.boolean = true
-      this.name = item.name
-      this.id = item.id
-      this.state = item.state
+      this.title = "编辑收藏夹";
+      this.boolean = true;
+      this.name = item.name;
+      this.id = item.id;
+      this.state = item.state;
     },
     remove(id) {
-      this.$confirm('确认删除收藏夹吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        const { data } = await this.Fetch.Home.Collect({
-          method: "delete",
-          data: {
-            id
-          }
+      this.$confirm("确认删除收藏夹吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const { data } = await this.Fetch.Home.Collect({
+            method: "delete",
+            data: {
+              id,
+            },
+          });
+          this.Def.Home.Message({
+            res: data,
+            fun: () => {
+              this.Get();
+              this.close();
+            },
+          });
         })
-        this.Def.Home.Message({
-          res: data,
-          fun: () => {
-            this.Get()
-            this.close()
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
         });
-      });
     },
     async Get() {
       const { data } = await this.Fetch.Home.Collect({
         alias: this.$route.params.name,
-      })
-      this.nav = data.list
-      this.Link(this.nav[0].id)
+      });
+      this.nav = data.list;
+      this.Link(this.nav[0].id);
     },
     collect(item) {
       this.Def.Collect({
         id: item.id,
         collect: item.collect,
         fun: () => {
-          this.Get()
-        }
-      })
+          this.Get();
+        },
+      });
     },
     close(value) {
-      this.boolean = value
-      this.Get()
-    }
-  }
-}
+      this.boolean = value;
+      this.Link(this.$route.query.id)
+    },
+  },
+};
 </script>
 <style scoped lang="less">
 #collect-box {
@@ -162,7 +201,7 @@ export default {
       cursor: pointer;
       padding: 10px;
       border-radius: 5px;
-      transition: .2s;
+      transition: 0.2s;
 
       &.active {
         background: var(--collect-nav);
@@ -187,12 +226,16 @@ export default {
         }
       }
 
-      >span {
+      > span {
         font-size: 13px;
       }
     }
   }
-
+  .collect-empty{
+    width: 100%;
+    height: 100%;
+    align-self: center;
+  }
   .collect-main-box {
     padding: 0 10px;
     width: 100%;
@@ -212,7 +255,7 @@ export default {
         }
       }
 
-      >div {
+      > div {
         display: flex;
         align-items: center;
         cursor: pointer;

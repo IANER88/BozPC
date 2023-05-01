@@ -29,7 +29,7 @@ export default {
 </script>
 <style scoped lang="less">
 .carousel-box {
-  width: 40.52%;
+  width: 43.52%;
   display: flex;
   flex-direction: column;
   border-radius: 8px;

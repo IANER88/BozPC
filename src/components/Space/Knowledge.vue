@@ -1,13 +1,16 @@
-<template></template>
+<template>
+  <div class="knowledge-box">
+    <el-empty description="暂无知识库" />
+  </div>
+</template>
 <script>
 export default {
-  name: 'Knowledge',
+  name: "Knowledge",
   data() {
-    return {}
+    return {};
   },
-  components: {}
-}
+  components: {},
+};
 </script>
 <style scoped lang="less">
-
 </style>

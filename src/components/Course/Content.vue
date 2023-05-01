@@ -128,11 +128,7 @@ import "@/assets/css/prism.css";
 import "@/assets/css/Articles.less";
 import Top from "@/components/toTop";
 import Nav from "../Home/Nav";
-import Translater from "translater.js";
 import Fun from "../func/Fun.vue";
-const tran = new Translater({
-  lang: "cn",
-});
 export default {
   name: "Content",
   data() {

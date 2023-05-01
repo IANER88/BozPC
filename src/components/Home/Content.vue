@@ -21,7 +21,12 @@
                 </ul>
                 <a href="">更多</a>
               </div>
-              <Article v-for="(item, index) in article" :key="index" :item="item" :render="render" />
+              <Article
+                v-for="(item, index) in article"
+                :key="index"
+                :item="item"
+                :render="render"
+              />
             </div>
           </div>
           <Other />
@@ -35,7 +40,7 @@
 import Like from "./Like";
 import Carousel from "./Parts/Carousel";
 import Headlines from "./Parts/Headlines";
-import Article from "./Parts/Article"
+import Article from "./Parts/Article";
 import Other from "./Parts/Other.vue";
 import NavTag from "./Parts/NavTag.vue";
 export default {
@@ -54,29 +59,27 @@ export default {
     };
   },
   async mounted() {
-    const [
-      home, article, nav
-    ] = await Promise.all([
+    const [home, article, nav] = await Promise.all([
       this.Fetch.Home.Home(),
       this.Article({}),
       this.Fetch.Release.Tag({ method: "patch" }),
-    ])
-    const { slideshow } = home.data
+    ]);
+    const { slideshow } = home.data;
     this.char = slideshow;
     this.all = home.data;
-    this.article = article
-    this.nav = nav.data.nav
+    this.article = article;
+    this.nav = nav.data.nav;
     this.list = nav.data.list;
     this.lists = this.Def.Home.Reduce(nav.data.list.list);
     // 滚动底部刷新文章数据
     this.boolean = this.Def.ScrollBottom({
       boolean: this.boolean,
       render: async () => {
-        this.index++
-        const info = await this.Article({ id: this.index })
-        if (info) this.article.push(...info)
-      }
-    })
+        this.index++;
+        const info = await this.Article({ id: this.index });
+        if (info) this.article.push(...info);
+      },
+    });
   },
   props: ["render"],
   components: { Like, Carousel, Headlines, Article, Other, NavTag },
@@ -85,11 +88,11 @@ export default {
       const { data } = await this.Fetch.Home.Article({
         method: "put",
         name,
-        id
-      })
-      if (data.code === 0) return data.article
+        id,
+      });
+      if (data.code === 0) return data.article;
     },
-  }
+  },
 };
 </script>
 <style lang="less">
@@ -122,7 +125,6 @@ export default {
 
   .content-box {
     height: 530px;
-
     .content-main-box {
       width: calc(100% - 139px);
       margin: 0 auto;

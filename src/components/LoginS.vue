@@ -9,13 +9,23 @@
     </div>
     <div class="bordr"><span>或</span></div>
     <div class="input">
-      <input type="text" placeholder="输入邮箱号" v-model.trim="login.email" :class="{ alert: Warning.email }" />
+      <input
+        type="text"
+        placeholder="输入邮箱号"
+        v-model.trim="login.email"
+        :class="{ alert: Warning.email }"
+      />
       <span v-show="Warning.email">
         <i v-html="Icon.Login.email" />
         请输入正确邮箱账号
       </span>
       <div>
-        <input type="text" placeholder="验证码" v-model.trim="login.enroll" />
+        <input
+          type="text"
+          placeholder="验证码"
+          @keydown.enter="show_ === 'Login' ? Login() : Register()"
+          v-model.trim="login.enroll"
+        />
         <button @click="Enroll()" :disabled="init.name">
           {{ init.title }}
         </button>
@@ -85,26 +95,26 @@ export default {
           data: {
             email: this.login.email.trim(),
             enroll: this.login.enroll.trim(),
-            effect: "登录"
-          }
+            effect: "登录",
+          },
         });
         this.Def.Home.Message({
           res: res.data,
           fun: () => {
             location.href = "/";
-          }
-        })
+          },
+        });
       }
     },
     Enroll() {
       this.Def.Enroll({
         warning: {
           fun: () => {
-            this.Warning.email = true
+            this.Warning.email = true;
           },
           def: () => {
-            this.Warning.email = false
-          }
+            this.Warning.email = false;
+          },
         },
         email: this.login.email,
         init: this.init,
@@ -122,15 +132,15 @@ export default {
           res: data,
           fun: () => {
             location.href = "/";
-          }
-        })
+          },
+        });
       }
     },
   },
   watch: {
     email: {
       deep: true,
-      handler() { },
+      handler() {},
     },
   },
   components: { Logo },
@@ -211,7 +221,7 @@ export default {
     justify-content: space-between;
     margin: 10px 0;
 
-    >div {
+    > div {
       display: flex;
       justify-content: center;
       border-radius: 6px;
@@ -274,7 +284,7 @@ export default {
     display: flex;
     flex-direction: column;
 
-    +button {
+    + button {
       height: 40px;
       background: var(--main-color);
       color: #fff;
@@ -286,7 +296,7 @@ export default {
 
       .button();
 
-      +div {
+      + div {
         margin-top: 20px;
         text-align: center;
 
@@ -294,7 +304,7 @@ export default {
           .span();
         }
 
-        +div {
+        + div {
           margin-top: 15px;
           text-align: center;
 
@@ -315,7 +325,7 @@ export default {
 
     .spanRed();
 
-    >input {
+    > input {
       margin: 10px 0;
     }
 
@@ -328,7 +338,7 @@ export default {
       border-radius: 6px;
       font-size: 15px;
 
-      >span {
+      > span {
         .span();
       }
 
@@ -341,7 +351,7 @@ export default {
       }
     }
 
-    >div {
+    > div {
       display: flex;
       height: 45px;
       justify-content: space-between;
